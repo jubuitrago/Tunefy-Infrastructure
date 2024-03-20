@@ -12,7 +12,7 @@ public_subnet_availability_zones        = ["us-east-1a", "us-east-1b", "us-east-
 
 #PRIVATE SUBNETS
 private_subnet_cidr_blocks              = ["10.0.0.48/28", "10.0.0.64/28", "10.0.0.80/28", "10.0.0.96/28", "10.0.0.112/28"]
-private_subnet_names                    = ["private-subnet-app-1a", "private-subnet-app-1b", "private-subnet-k8s-master-1a", "private-subnet-k8s-master-1b", "private-subnet-CICD-1a"]
+private_subnet_names                    = ["private-subnet-app-1a", "private-subnet-app-1b", "private-subnet-k8s-master-1a", "private-subnet-k8s-master-1b", "private-subnet-cicd-1a"]
 private_subnet_availability_zones       = ["us-east-1a", "us-east-1b", "us-east-1a", "us-east-1b", "us-east-1a"]
 
 #NAT GATEWAY

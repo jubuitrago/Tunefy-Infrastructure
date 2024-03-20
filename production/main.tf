@@ -44,3 +44,10 @@ module "network_interface" {
   public_route_table_name   = var.public_route_table_name
   internet_cidr_block       = var.internet_cidr_block
 }
+
+module "EC2" {
+  source = "../modules/instances/EC2"
+
+  public_subnets            = module.subnet.public_subnets
+  private_subnets           = module.subnet.private_subnets 
+}
