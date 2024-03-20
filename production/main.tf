@@ -11,91 +11,36 @@ provider "aws" {
   region = var.aws_region
 }
 
-#VPC
-resource "aws_vpc" "production" {
-  cidr_block = var.vpc_cidr_block
-  tags = {
-    Name = var.vpc_name
-  }
+module "vpc" {
+  source = "../modules/networking/vpc"
+
+  vpc_cidr_block = var.vpc_cidr_block
+  vpc_name = var.vpc_name
 }
 
-#SUBNETS
-resource "aws_subnet" "public" {
-  count                  = length(var.public_subnet_cidr_blocks)
-  vpc_id                 = aws_vpc.production.id
-  cidr_block             = var.public_subnet_cidr_blocks[count.index]
-  availability_zone      = var.public_subnet_availability_zones[count.index]
-  tags = {
-    Name = var.public_subnet_names[count.index]
-  }
+module "subnet" {
+  source = "../modules/networking/subnet"
+
+  vpc_id = module.vpc.vpc_id
+
+  public_subnet_cidr_blocks         = var.public_subnet_cidr_blocks
+  public_subnet_names               = var.public_subnet_names
+  public_subnet_availability_zones  = var.public_subnet_availability_zones
+  private_subnet_cidr_blocks        = var.private_subnet_cidr_blocks
+  private_subnet_names              = var.private_subnet_names
+  private_subnet_availability_zones = var.private_subnet_availability_zones
 }
 
-resource "aws_subnet" "private" {
-  count                  = length(var.private_subnet_cidr_blocks)
-  vpc_id                 = aws_vpc.production.id
-  cidr_block             = var.private_subnet_cidr_blocks[count.index]
-  availability_zone      = var.private_subnet_availability_zones[count.index]
-  tags = {
-    Name = var.private_subnet_names[count.index]
-  }
-}
+module "network_interface" {
+  source = "../modules/networking/network_interface"
 
-#INTERNET GATEWAY
-resource "aws_internet_gateway" "main" {
-  vpc_id = aws_vpc.production.id
-  tags = {
-    Name = var.internet_gateway_name
-  }
-}
+  vpc_id                    = module.vpc.vpc_id
+  public_subnets            = module.subnet.public_subnets
+  private_subnets           = module.subnet.private_subnets 
 
-resource "aws_route_table" "public" {
-  vpc_id = aws_vpc.production.id
-  tags = {
-    Name = var.public_route_table_name
-  }
+  nat_gateway_name          = var.nat_gateway_name
+  internet_gateway_name     = var.internet_gateway_name
+  private_route_table_name  = var.private_route_table_name
+  public_route_table_name   = var.public_route_table_name
+  internet_cidr_block       = var.internet_cidr_block
 }
-
-resource "aws_route" "internet_gateway" {
-  route_table_id          = aws_route_table.public.id
-  destination_cidr_block  = var.internet_cidr_block
-  gateway_id              = aws_internet_gateway.main.id
-}
-
-resource "aws_route_table_association" "public_subnet_associations" {
-  count             = length(aws_subnet.public)
-  subnet_id         = aws_subnet.public[count.index].id
-  route_table_id    = aws_route_table.public.id
-}
-
-#NAT GATEWAY
-resource "aws_nat_gateway" "main" {
-  allocation_id = aws_eip.nat.id
-  subnet_id     = aws_subnet.public[2].id
-  tags = {
-    Name = var.nat_gateway_name
-  }
-}
-
-resource "aws_route_table" "private" {
-  vpc_id = aws_vpc.production.id
-  tags = {
-    Name = var.private_route_table_name
-  }
-}
-
-resource "aws_eip" "nat" {
-  domain = "vpc"
-}
-
-resource "aws_route" "nat_gateway" {
-  route_table_id           = aws_route_table.private.id
-  destination_cidr_block   = var.internet_cidr_block
-  nat_gateway_id           = aws_nat_gateway.main.id
-}
-
-resource "aws_route_table_association" "private_subnet-associations" {
-  count               = length(aws_subnet.private)
-  subnet_id           = aws_subnet.private[count.index].id
-  route_table_id      = aws_route_table.private.id
-}
-
