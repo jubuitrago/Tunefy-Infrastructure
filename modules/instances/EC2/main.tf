@@ -8,7 +8,7 @@ resource "aws_instance" "nginx" {
     instance_type               = "t2.nano"
     ami                         = "ami-080e1f13689e07408"
     associate_public_ip_address = true
-    key_name = "tunefy-global-key"
+    key_name                    = "tunefy-global-key"
 
     tags = {
         Name = "tunefy-nginx-${substr(each.value.tags.Name, -2, 0)}"
@@ -28,8 +28,8 @@ resource "aws_instance" "frontend" {
     subnet_id                   = each.value.id
     instance_type               = "t2.micro"
     ami                         = "ami-080e1f13689e07408"
-    associate_public_ip_address = true
-    key_name = "tunefy-global-key"
+    associate_public_ip_address = false
+    key_name                    = "tunefy-global-key"
 
     tags = {
         Name = "tunefy-frontend-${substr(each.value.tags.Name, -2, 0)}"
@@ -49,8 +49,8 @@ resource "aws_instance" "backend" {
     subnet_id                   = each.value.id
     instance_type               = "t2.micro"
     ami                         = "ami-080e1f13689e07408"
-    associate_public_ip_address = true
-    key_name = "tunefy-global-key"
+    associate_public_ip_address = false
+    key_name                    = "tunefy-global-key"
 
     tags = {
         Name = "tunefy-backend-${substr(each.value.tags.Name, -2, 0)}"
@@ -70,8 +70,8 @@ resource "aws_instance" "database" {
     subnet_id                   = each.value.id
     instance_type               = "t2.small"
     ami                         = "ami-080e1f13689e07408"
-    associate_public_ip_address = true
-    key_name = "tunefy-global-key"
+    associate_public_ip_address = false
+    key_name                    = "tunefy-global-key"
 
     tags = {
         Name = "tunefy-database-${substr(each.value.tags.Name, -2, 0)}"
@@ -91,8 +91,8 @@ resource "aws_instance" "cicd" {
     subnet_id                   = each.value.id
     instance_type               = "t2.small"
     ami                         = "ami-080e1f13689e07408"
-    associate_public_ip_address = true
-    key_name = "tunefy-global-key"
+    associate_public_ip_address = false
+    key_name                    = "tunefy-global-key"
 
     tags = {
         Name = "tunefy-cicd-${substr(each.value.tags.Name, -2, 0)}"
@@ -112,8 +112,8 @@ resource "aws_instance" "k8s-master" {
     subnet_id                   = each.value.id
     instance_type               = "t2.medium"
     ami                         = "ami-080e1f13689e07408"
-    associate_public_ip_address = true
-    key_name = "tunefy-global-key"
+    associate_public_ip_address = false
+    key_name                    = "tunefy-global-key"
 
     tags = {
         Name = "tunefy-k8s-master-${substr(each.value.tags.Name, -2, 0)}"
@@ -134,7 +134,7 @@ resource "aws_instance" "bastion" {
     instance_type               = "t2.medium"
     ami                         = "ami-080e1f13689e07408"
     associate_public_ip_address = true
-    key_name = "tunefy-bastion-key"
+    key_name                    = "tunefy-bastion-key"
 
     tags = {
         Name = "tunefy-bastion-${substr(each.value.tags.Name, -2, 0)}"

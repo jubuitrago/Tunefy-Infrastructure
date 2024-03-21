@@ -20,10 +20,14 @@ nat_gateway_name                        = "tunefy-NAT-GW"
 private_route_table_name                = "tunefy-rtb-private"
 
 #INTERNET GATEWAY
-internet_gateway_name                   = "tunefy-NAT-GW"
+internet_gateway_name                   = "tunefy-IGW"
 public_route_table_name                 = "tunefy-rtb-public"
 
 #INTERNET
 internet_cidr_block                     = "0.0.0.0/0"
 
+#INTERNET-FACING LOAD BALANCER
+internet_facing_load_balancer_name      = "tunefy-public-ALB"
 
+#BACKEND LOAD BALANCER                  
+backend_load_balancer_name              = "tunefy-backend-ALB"

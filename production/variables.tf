@@ -67,3 +67,14 @@ variable "private_route_table_name" {
   type = string
   default     = ""
 }
+
+#LOAD BALANCERS
+variable "internet_facing_load_balancer_name" {
+  type = string
+  default = ""
+}
+
+variable "backend_load_balancer_name" {
+  type = string
+  default = ""
+}

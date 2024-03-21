@@ -51,3 +51,21 @@ module "EC2" {
   public_subnets            = module.subnet.public_subnets
   private_subnets           = module.subnet.private_subnets 
 }
+
+module "load_balancer" {
+  source = "../modules/instances/load_balancer"
+  
+  vpc_id                              = module.vpc.vpc_id
+  public_subnets                      = module.subnet.public_subnets
+  private_subnets                     = module.subnet.private_subnets
+  internet_facing_load_balancer_name  = var.internet_facing_load_balancer_name
+  backend_load_balancer_name          = var.backend_load_balancer_name 
+  nginx_instances                     = module.EC2.nginx_instances
+  backend_instances                   = module.EC2.backend_instances
+}
+
+module "security_group" {
+  source = "../modules/instances/security_group"
+
+  vpc_id      = module.vpc.vpc_id
+}
