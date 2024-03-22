@@ -45,11 +45,25 @@ module "network_interface" {
   internet_cidr_block       = var.internet_cidr_block
 }
 
+module "security_group" {
+  source = "../modules/instances/security_group"
+
+  vpc_id                                = module.vpc.vpc_id
+}
+
 module "EC2" {
   source = "../modules/instances/EC2"
 
-  public_subnets            = module.subnet.public_subnets
-  private_subnets           = module.subnet.private_subnets 
+  subnet_ids_list_map       = module.subnet.subnet_ids_list_map
+  tunefy_nginx_SG_id        = module.security_group.tunefy_nginx_SG_id
+  tunefy_bastion_SG_id      = module.security_group.tunefy_bastion_SG_id
+  tunefy_frontend_SG_id     = module.security_group.tunefy_frontend_SG_id
+  tunefy_backend_SG_id      = module.security_group.tunefy_backend_SG_id
+  tunefy_database_SG_id     = module.security_group.tunefy_database_SG_id
+  tunefy_k8s_master_SG_id   = module.security_group.tunefy_k8s_master_SG_id
+  tunefy_cicd_SG_id         = module.security_group.tunefy_cicd_SG_id
+
+  bastion_provision_script  = var.bastion_provision_script
 }
 
 module "load_balancer" {
@@ -60,12 +74,19 @@ module "load_balancer" {
   private_subnets                     = module.subnet.private_subnets
   internet_facing_load_balancer_name  = var.internet_facing_load_balancer_name
   backend_load_balancer_name          = var.backend_load_balancer_name 
-  nginx_instances                     = module.EC2.nginx_instances
-  backend_instances                   = module.EC2.backend_instances
+  nginx_instances_id_list             = module.EC2.nginx_instances_id_list
+  backend_instances_id_list           = module.EC2.backend_instances_id_list
 }
 
-module "security_group" {
-  source = "../modules/instances/security_group"
+module "security_group_rule" {
+  source = "../modules/instances/security_group_rule"
 
-  vpc_id      = module.vpc.vpc_id
+  internet_facing_load_balancer_exists  = module.load_balancer.internet_facing_load_balancer_exists
+  tunefy_nginx_SG_id        = module.security_group.tunefy_nginx_SG_id
+  tunefy_bastion_SG_id      = module.security_group.tunefy_bastion_SG_id
+  tunefy_frontend_SG_id     = module.security_group.tunefy_frontend_SG_id
+  tunefy_backend_SG_id      = module.security_group.tunefy_backend_SG_id
+  tunefy_database_SG_id     = module.security_group.tunefy_database_SG_id
+  tunefy_k8s_master_SG_id   = module.security_group.tunefy_k8s_master_SG_id
+  tunefy_cicd_SG_id         = module.security_group.tunefy_cicd_SG_id
 }

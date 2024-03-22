@@ -1,6 +1,8 @@
-variable "tunefy_bastion_SG_id" {}
+variable "internet_facing_load_balancer_exists" {}
 
 variable "tunefy_nginx_SG_id" {}
+
+variable "tunefy_bastion_SG_id" {}  
 
 variable "tunefy_frontend_SG_id" {}
 
@@ -11,7 +13,4 @@ variable "tunefy_database_SG_id" {}
 variable "tunefy_k8s_master_SG_id" {}
 
 variable "tunefy_cicd_SG_id" {}
-
-variable "subnet_ids_list_map" {}
-
-variable "bastion_provision_script" {}
+     

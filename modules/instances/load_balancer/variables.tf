@@ -8,6 +8,6 @@ variable "private_subnets" {}
 
 variable "vpc_id" {}
 
-variable "nginx_instances" {}
+variable "nginx_instances_id_list" {}
 
-variable "backend_instances" {}
+variable "backend_instances_id_list" {}

@@ -1,17 +1,15 @@
 resource "aws_instance" "nginx" {
-    for_each = {
-        for subnet in var.public_subnets:
-        subnet.id => subnet if contains(keys(subnet.tags), "Name") && (subnet.tags.Name == "public-subnet-nginx-1a" || subnet.tags.Name == "public-subnet-nginx-1b")
-    }
+    count = length(var.subnet_ids_list_map["nginx"])
 
-    subnet_id                   = each.value.id
+    subnet_id                   = var.subnet_ids_list_map["nginx"][count.index]
     instance_type               = "t2.nano"
     ami                         = "ami-080e1f13689e07408"
     associate_public_ip_address = true
     key_name                    = "tunefy-global-key"
+    vpc_security_group_ids      = [var.tunefy_nginx_SG_id]
 
     tags = {
-        Name = "tunefy-nginx-${substr(each.value.tags.Name, -2, 0)}"
+        Name = "tunefy-nginx"
     }
     root_block_device {
       volume_type = "gp2"
@@ -20,19 +18,17 @@ resource "aws_instance" "nginx" {
 }
 
 resource "aws_instance" "frontend" {
-    for_each = {
-        for subnet in var.private_subnets:
-        subnet.id => subnet if contains(keys(subnet.tags), "Name") && (subnet.tags.Name == "private-subnet-app-1a" || subnet.tags.Name == "private-subnet-app-1b")
-    }
+    count = length(var.subnet_ids_list_map["frontend"])
 
-    subnet_id                   = each.value.id
+    subnet_id                   = var.subnet_ids_list_map["frontend"][count.index]
     instance_type               = "t2.micro"
     ami                         = "ami-080e1f13689e07408"
     associate_public_ip_address = false
     key_name                    = "tunefy-global-key"
+    vpc_security_group_ids      = [var.tunefy_frontend_SG_id]
 
     tags = {
-        Name = "tunefy-frontend-${substr(each.value.tags.Name, -2, 0)}"
+        Name = "tunefy-frontend"
     }
     root_block_device {
       volume_type = "gp2"
@@ -41,19 +37,17 @@ resource "aws_instance" "frontend" {
 }
 
 resource "aws_instance" "backend" {
-    for_each = {
-        for subnet in var.private_subnets:
-        subnet.id => subnet if contains(keys(subnet.tags), "Name") && (subnet.tags.Name == "private-subnet-app-1a" || subnet.tags.Name == "private-subnet-app-1b")
-    }
+    count = length(var.subnet_ids_list_map["backend"])
 
-    subnet_id                   = each.value.id
+    subnet_id                   = var.subnet_ids_list_map["backend"][count.index]
     instance_type               = "t2.micro"
     ami                         = "ami-080e1f13689e07408"
     associate_public_ip_address = false
     key_name                    = "tunefy-global-key"
+    vpc_security_group_ids      = [var.tunefy_backend_SG_id] 
 
     tags = {
-        Name = "tunefy-backend-${substr(each.value.tags.Name, -2, 0)}"
+        Name = "tunefy-backend"
     }
     root_block_device {
       volume_type = "gp2"
@@ -62,19 +56,17 @@ resource "aws_instance" "backend" {
 }
 
 resource "aws_instance" "database" {
-    for_each = {
-        for subnet in var.private_subnets:
-        subnet.id => subnet if contains(keys(subnet.tags), "Name") && (subnet.tags.Name == "private-subnet-app-1a" || subnet.tags.Name == "private-subnet-app-1b")
-    }
+    count = length(var.subnet_ids_list_map["database"])
 
-    subnet_id                   = each.value.id
+    subnet_id                   = var.subnet_ids_list_map["database"][count.index]
     instance_type               = "t2.small"
     ami                         = "ami-080e1f13689e07408"
     associate_public_ip_address = false
     key_name                    = "tunefy-global-key"
+    vpc_security_group_ids      = [var.tunefy_database_SG_id] 
 
     tags = {
-        Name = "tunefy-database-${substr(each.value.tags.Name, -2, 0)}"
+        Name = "tunefy-database"
     }
     root_block_device {
       volume_type = "gp2"
@@ -83,19 +75,17 @@ resource "aws_instance" "database" {
 }
 
 resource "aws_instance" "cicd" {
-    for_each = {
-        for subnet in var.private_subnets:
-        subnet.id => subnet if contains(keys(subnet.tags), "Name") && (subnet.tags.Name == "private-subnet-cicd-1a")
-    }
+    count = length(var.subnet_ids_list_map["cicd"])
 
-    subnet_id                   = each.value.id
+    subnet_id                   = var.subnet_ids_list_map["cicd"][count.index]
     instance_type               = "t2.small"
     ami                         = "ami-080e1f13689e07408"
     associate_public_ip_address = false
     key_name                    = "tunefy-global-key"
+    vpc_security_group_ids      = [var.tunefy_cicd_SG_id] 
 
     tags = {
-        Name = "tunefy-cicd-${substr(each.value.tags.Name, -2, 0)}"
+        Name = "tunefy-cicd"
     }
     root_block_device {
       volume_type = "gp2"
@@ -104,19 +94,18 @@ resource "aws_instance" "cicd" {
 }
 
 resource "aws_instance" "k8s-master" {
-    for_each = {
-        for subnet in var.private_subnets:
-        subnet.id => subnet if contains(keys(subnet.tags), "Name") && (subnet.tags.Name == "private-subnet-k8s-master-1a" || subnet.tags.Name == "private-subnet-k8s-master-1b")
-    }
+    count = length(var.subnet_ids_list_map["k8s-master"])
 
-    subnet_id                   = each.value.id
+    subnet_id                   = var.subnet_ids_list_map["k8s-master"][count.index]
     instance_type               = "t2.medium"
     ami                         = "ami-080e1f13689e07408"
     associate_public_ip_address = false
     key_name                    = "tunefy-global-key"
+    vpc_security_group_ids      = [var.tunefy_k8s_master_SG_id] 
+
 
     tags = {
-        Name = "tunefy-k8s-master-${substr(each.value.tags.Name, -2, 0)}"
+        Name = "tunefy-k8s-master"
     }
     root_block_device {
       volume_type = "gp2"
@@ -125,19 +114,18 @@ resource "aws_instance" "k8s-master" {
 }
 
 resource "aws_instance" "bastion" {
-    for_each = {
-        for subnet in var.public_subnets:
-        subnet.id => subnet if contains(keys(subnet.tags), "Name") && (subnet.tags.Name == "public-subnet-bastion-1a")
-    }
+    count = length(var.subnet_ids_list_map["bastion"])
 
-    subnet_id                   = each.value.id
+    subnet_id                   = var.subnet_ids_list_map["bastion"][count.index]
     instance_type               = "t2.medium"
     ami                         = "ami-080e1f13689e07408"
     associate_public_ip_address = true
     key_name                    = "tunefy-bastion-key"
+    vpc_security_group_ids      = [var.tunefy_bastion_SG_id]
+    user_data                   = var.bastion_provision_script
 
     tags = {
-        Name = "tunefy-bastion-${substr(each.value.tags.Name, -2, 0)}"
+        Name = "tunefy-bastion"
     }
     root_block_device {
       volume_type = "gp2"

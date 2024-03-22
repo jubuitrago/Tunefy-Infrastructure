@@ -36,13 +36,10 @@ resource "aws_lb_listener" "internet_facing" {
 }
 
 resource "aws_lb_target_group_attachment" "nginx_instance" {
-  for_each = {
-    for key, value in var.nginx_instances :
-    value.id => value
-  }
+  count = length(var.nginx_instances_id_list)
 
   target_group_arn = aws_lb_target_group.nginx_tg.arn
-  target_id = each.value.id
+  target_id = var.nginx_instances_id_list[count.index]
   port = 80
 }
 
@@ -85,12 +82,9 @@ resource "aws_lb_listener" "backend" {
 }
 
 resource "aws_lb_target_group_attachment" "backend_instance" {
-  for_each = {
-    for key, value in var.backend_instances :
-    value.id => value
-  }
+  count = length(var.backend_instances_id_list)
 
   target_group_arn = aws_lb_target_group.backend_tg.arn
-  target_id = each.value.id
+  target_id = var.backend_instances_id_list[count.index]
   port = 80
 }
