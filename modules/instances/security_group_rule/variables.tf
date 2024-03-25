@@ -13,4 +13,6 @@ variable "tunefy_database_SG_id" {}
 variable "tunefy_k8s_master_SG_id" {}
 
 variable "tunefy_cicd_SG_id" {}
+
+variable "nginx_instances_ip_list" {}
      

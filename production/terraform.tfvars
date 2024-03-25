@@ -33,7 +33,7 @@ internet_facing_load_balancer_name      = "tunefy-public-ALB"
 backend_load_balancer_name              = "tunefy-backend-ALB"
 
 #SCRIPTS
-/* bastion_provision_script                = <<EOT
+bastion_provision_script                = <<EOT
 #!/bin/bash
 sudo apt update
 sudo apt -y install curl wget bash-completion
@@ -41,42 +41,37 @@ sudo apt -y install curl wget bash-completion
 VERSION="14.11.21"
 wget https://packages.chef.io/files/stable/chef-server/${VERSION}/ubuntu/18.04/chef-server-core_${VERSION}-1_amd64.deb
 sudo apt install ./chef-server-core_${VERSION}-1_amd64.deb
-sudo chef-server-ctl reconfigure
+echo "yes" | sudo chef-server-ctl reconfigure
+
 
 sudo chef-server-ctl user-create chefadmin Chef Admin \
-  chefadmin@example.com 'StrongPassword' \
-  --filename /home/chefadmin.pem
+  chefadmin@example.com 'my-password' \
+  --filename /home/ubuntu/chefadmin.pem
 
-chef-server-ctl org-create mycompany 'Company X, Inc.' \
+sudo chef-server-ctl org-create tunefy 'Tunefy Inc.' \
   --association_user chefadmin \
-  --filename /home/mycompany-validator.pem
+  --filename /home/ubuntu/tunefy-validator.pem
 
 sudo chef-server-ctl install chef-manage 
 sudo chef-server-ctl reconfigure 
 sudo chef-manage-ctl reconfigure
 
-sudo ufw allow proto tcp from any to any port 80,443
-
 wget https://packages.chef.io/files/stable/chef-workstation/21.10.640/ubuntu/20.04/chef-workstation_21.10.640-1_amd64.deb
-dpkg -i chef-workstation_21.10.640-1_amd64.deb
+sudo dpkg -i chef-workstation_21.10.640-1_amd64.deb
 
-chef generate repo chef-repo
+echo "yes" | chef generate repo chef-repo
 cd chef-repo
-git config --global user.name gitusername
-git config --global user.email useremail@example.com
-echo ".chef" > .gitignore
-git add .
-git commit -m "initial commit"
 mkdir .chef
 cd .chef
-cp /home/chefadmin.pem .
+cp /home/ubuntu/chefadmin.pem .
+y | rm /home/ubuntu/chefadmin.pem
 
 echo 'current_dir = File.dirname(__FILE__)
 log_level :info
 log_location STDOUT
 node_name "chefadmin"
 client_key "#{current_dir}/chefadmin.pem"
-chef_server_url "https://chef-server/organizations/mycompany"
+chef_server_url "https://chef-server/organizations/tunefy"
 cookbook_path ["#{current_dir}/../cookbooks"]' > knife.rb
 
 knife ssl fetch
@@ -98,4 +93,4 @@ nginx_provision_script                = <<EOT
 
 
 
-EOT */
+EOT

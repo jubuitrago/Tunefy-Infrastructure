@@ -89,4 +89,6 @@ module "security_group_rule" {
   tunefy_database_SG_id     = module.security_group.tunefy_database_SG_id
   tunefy_k8s_master_SG_id   = module.security_group.tunefy_k8s_master_SG_id
   tunefy_cicd_SG_id         = module.security_group.tunefy_cicd_SG_id
+
+  nginx_instances_ip_list   = module.EC2.nginx_instances_ip_list
 }

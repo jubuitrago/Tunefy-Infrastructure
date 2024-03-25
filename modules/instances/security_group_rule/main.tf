@@ -9,9 +9,11 @@ resource "aws_vpc_security_group_ingress_rule" "allow_HTTP80_from_public_alb" {
 
 #TUNEFY-BASTION-SG RULES
 resource "aws_vpc_security_group_ingress_rule" "allow_SSH22_from_admin_pc" {
+    count = length(var.nginx_instances_ip_list)
+
     security_group_id = var.tunefy_bastion_SG_id
-    cidr_ipv4 = "1.1.1.1/32"
-    from_port   = 22
-    to_port     = 22
+    cidr_ipv4 = var.nginx_instances_ip_list[count.index]
+    from_port   = 443
+    to_port     = 443
     ip_protocol = "tcp"
 }
