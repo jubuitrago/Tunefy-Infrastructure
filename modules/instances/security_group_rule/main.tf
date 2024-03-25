@@ -7,13 +7,23 @@ resource "aws_vpc_security_group_ingress_rule" "allow_HTTP80_from_public_alb" {
     ip_protocol = "tcp"
 }
 
+resource "aws_vpc_security_group_ingress_rule" "allow_SSH22_from_bastion" {
+    count = length(var.bastion_instance_ip_list)
+
+    security_group_id = var.tunefy_nginx_SG_id
+    cidr_ipv4   = format("%s/32", var.bastion_instance_ip_list[count.index])
+    from_port   = 22
+    to_port     = 22
+    ip_protocol = "tcp"
+}
+
 #TUNEFY-BASTION-SG RULES
-resource "aws_vpc_security_group_ingress_rule" "allow_SSH22_from_admin_pc" {
+resource "aws_vpc_security_group_ingress_rule" "allow_HTTPS443_from_nginx_instances" {
     count = length(var.nginx_instances_ip_list)
 
-    security_group_id = var.tunefy_bastion_SG_id
-    cidr_ipv4 = var.nginx_instances_ip_list[count.index]
-    from_port   = 443
-    to_port     = 443
-    ip_protocol = "tcp"
+    security_group_id   = var.tunefy_bastion_SG_id
+    cidr_ipv4           = var.nginx_instances_ip_list[count.index]
+    from_port           = 443
+    to_port             = 443
+    ip_protocol         = "tcp"
 }

@@ -78,8 +78,3 @@ variable "backend_load_balancer_name" {
   type = string
   default = ""
 }
-
-#SCRIPTS
-variable "bastion_provision_script" {}
-
-variable "nginx_provision_script" {}

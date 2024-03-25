@@ -63,7 +63,8 @@ module "EC2" {
   tunefy_k8s_master_SG_id   = module.security_group.tunefy_k8s_master_SG_id
   tunefy_cicd_SG_id         = module.security_group.tunefy_cicd_SG_id
 
-  bastion_provision_script  = var.bastion_provision_script
+  bastion_provision_script  = module.scripts.bastion_provision_script
+  nginx_provision_script    = module.scripts.nginx_provision_script
 }
 
 module "load_balancer" {
@@ -91,4 +92,11 @@ module "security_group_rule" {
   tunefy_cicd_SG_id         = module.security_group.tunefy_cicd_SG_id
 
   nginx_instances_ip_list   = module.EC2.nginx_instances_ip_list
+  bastion_instance_ip_list  = module.EC2.bastion_instance_ip_list
+}
+
+module "scripts" {
+  source = "../modules/instances/scripts"
+
+  bastion_instance_ip_list       = module.EC2.bastion_instance_ip_list
 }

@@ -1,0 +1,1 @@
+variable "bastion_instance_ip_list" {}

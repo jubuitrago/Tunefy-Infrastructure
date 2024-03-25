@@ -9,3 +9,7 @@ output "backend_instances_id_list" {
 output "nginx_instances_ip_list" {
   value = [for instance in aws_instance.nginx : format("%s/32", instance.private_ip)]
 }
+
+output "bastion_instance_ip_list" {
+  value = [for instance in aws_instance.bastion : instance.private_ip]
+}

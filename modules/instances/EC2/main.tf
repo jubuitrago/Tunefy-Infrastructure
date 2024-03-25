@@ -7,6 +7,7 @@ resource "aws_instance" "nginx" {
     associate_public_ip_address = true
     key_name                    = "tunefy-global-key"
     vpc_security_group_ids      = [var.tunefy_nginx_SG_id]
+    user_data                   = var.nginx_provision_script
 
     tags = {
         Name = "tunefy-nginx"

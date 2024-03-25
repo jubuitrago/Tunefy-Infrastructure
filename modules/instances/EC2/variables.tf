@@ -15,3 +15,5 @@ variable "tunefy_cicd_SG_id" {}
 variable "subnet_ids_list_map" {}
 
 variable "bastion_provision_script" {}
+
+variable "nginx_provision_script" {}

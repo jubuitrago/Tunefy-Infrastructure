@@ -15,4 +15,6 @@ variable "tunefy_k8s_master_SG_id" {}
 variable "tunefy_cicd_SG_id" {}
 
 variable "nginx_instances_ip_list" {}
+
+variable "bastion_instance_ip_list" {}
      
