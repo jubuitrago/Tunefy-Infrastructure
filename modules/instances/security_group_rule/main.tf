@@ -28,3 +28,14 @@ resource "aws_vpc_security_group_ingress_rule" "allow_HTTPS443_from_chef_node_in
     to_port             = 443
     ip_protocol         = "tcp"
 }
+
+#K8S-MASTER-SG RULES
+resource "aws_vpc_security_group_ingress_rule" "allow_TCP6443_from_k8s_node_instances" {
+    count = length(var.k8s_nodes_ip_list)
+
+    security_group_id   = var.tunefy_k8s_master_SG_id
+    cidr_ipv4           = format("%s/32", var.k8s_nodes_ip_list[count.index])
+    from_port           = 6443
+    to_port             = 6443
+    ip_protocol         = "tcp"
+}

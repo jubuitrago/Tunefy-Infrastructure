@@ -16,15 +16,15 @@ sudo knife bootstrap ${PRIMARY_DATABASE_IP}     -U ubuntu -p 22 --sudo -i /home/
 sudo knife bootstrap ${REPLICA_DATABASE_IP}     -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N replica_database_node
 sudo knife bootstrap ${CICD_IP}                 -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N cicd_node
 sudo knife bootstrap ${K8S_MASTER_1_IP}         -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N k8s_master_node_1       --run-list 'recipe[tunefy_cookbook::k8s_master_setup]'
-sudo knife bootstrap ${K8S_MASTER_2_IP}         -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N k8s_master_node_2
+sudo knife bootstrap ${K8S_MASTER_2_IP}         -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N k8s_master_node_2       --run-list 'recipe[tunefy_cookbook::k8s_master_setup]'
+
+#Join frontend_node_1
+sudo knife ssh "name:k8s_master_node_1" "kubeadm token create --print-join-command" -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -c 'JOIN_COMMAND=$(kubeadm token create --print-join-command); export JOIN_COMMAND'
+echo $JOIN_COMMAND
+
+sudo knife ssh "name:frontend_node_1" "$JOIN_COMMAND" -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
 
 
-
-
-
-
-
-sudo knife ssh "name:k8s_master_node_1" "kubeadm token create --print-join-command" -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
 
 
 knife cookbook upload tunefy_cookbook

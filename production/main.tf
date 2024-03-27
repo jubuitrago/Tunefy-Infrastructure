@@ -97,6 +97,7 @@ module "security_group_rule" {
 
   bastion_instance_ip_list              = module.EC2.bastion_instance_ip_list
   chef_nodes_ip_list                    = module.EC2.chef_nodes_ip_list
+  k8s_nodes_ip_list                     = module.EC2.k8s_nodes_ip_list
 }
 
 module "scripts" {

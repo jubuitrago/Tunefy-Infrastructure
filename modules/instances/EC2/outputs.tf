@@ -50,3 +50,10 @@ output "chef_nodes_ip_list" {
     [for instance in aws_instance.k8s_master : instance.private_ip]
   )
 }
+
+output "k8s_nodes_ip_list" {
+  value = concat(
+    [for instance in aws_instance.frontend : instance.private_ip],
+    [for instance in aws_instance.backend : instance.private_ip]
+  )
+}

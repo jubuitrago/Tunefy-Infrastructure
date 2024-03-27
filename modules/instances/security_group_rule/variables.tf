@@ -21,3 +21,5 @@ variable "bastion_instance_ip_list" {}
 variable "SG_ids_list" {}
 
 variable "chef_nodes_ip_list" {}
+
+variable "k8s_nodes_ip_list" {}
