@@ -33,6 +33,11 @@ execute 'apply_sysctl_settings' do
   command 'sudo sysctl --system'
 end
 
+# Update package repository
+execute 'apt_update' do
+  command 'sudo apt-get update'
+end
+
 # Install Docker
 package 'docker.io' do
   action :install
