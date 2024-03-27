@@ -63,11 +63,25 @@ resource "aws_security_group" "tunefy-backend-SG" {
 
 
 #TUNEFY-DATABASE-SG
-resource "aws_security_group" "tunefy-database-SG" {
-    name = "tunefy-database-iac-SG"
+resource "aws_security_group" "tunefy-primary-database-SG" {
+    name = "tunefy-primary-database-iac-SG"
     vpc_id = var.vpc_id
     tags = {
-        Name = "tunefy-database-iac-SG"
+        Name = "tunefy-primary-database-iac-SG"
+    }
+    egress {
+        protocol    = "-1"
+        from_port   = "0"
+        to_port     = "0"
+        cidr_blocks      = ["0.0.0.0/0"]
+    }
+}
+
+resource "aws_security_group" "tunefy-replica-database-SG" {
+    name = "tunefy-replica-database-iac-SG"
+    vpc_id = var.vpc_id
+    tags = {
+        Name = "tunefy-replica-database-iac-SG"
     }
     egress {
         protocol    = "-1"

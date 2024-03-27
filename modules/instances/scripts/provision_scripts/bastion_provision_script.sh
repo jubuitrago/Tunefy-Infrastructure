@@ -51,5 +51,3 @@ sudo knife ssl fetch
 
 wget https://raw.githubusercontent.com/jubuitrago/Tunefy-Infrastructure/main/keys/tunefy-global-key.pem
 chmod 400 tunefy-global-key.pem
-
-#sudo knife bootstrap 10.0.0.12 -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N nginx_node

@@ -7,7 +7,7 @@ resource "aws_instance" "nginx" {
     associate_public_ip_address = true
     key_name                    = "tunefy-global-key"
     vpc_security_group_ids      = [var.tunefy_nginx_SG_id]
-    user_data                   = var.nginx_provision_script
+    user_data                   = var.chef_nodes_provision_scripts[0].content
 
     tags = {
         Name = "tunefy-nginx"
@@ -27,6 +27,7 @@ resource "aws_instance" "frontend" {
     associate_public_ip_address = false
     key_name                    = "tunefy-global-key"
     vpc_security_group_ids      = [var.tunefy_frontend_SG_id]
+    user_data                   = var.chef_nodes_provision_scripts[1].content
 
     tags = {
         Name = "tunefy-frontend"
@@ -45,7 +46,8 @@ resource "aws_instance" "backend" {
     ami                         = "ami-080e1f13689e07408"
     associate_public_ip_address = false
     key_name                    = "tunefy-global-key"
-    vpc_security_group_ids      = [var.tunefy_backend_SG_id] 
+    vpc_security_group_ids      = [var.tunefy_backend_SG_id]
+    user_data                   = var.chef_nodes_provision_scripts[2].content
 
     tags = {
         Name = "tunefy-backend"
@@ -56,18 +58,39 @@ resource "aws_instance" "backend" {
     }
 }
 
-resource "aws_instance" "database" {
-    count = length(var.subnet_ids_list_map["database"])
+resource "aws_instance" "primary_database" {
+    count = length(var.subnet_ids_list_map["primary_database"])
 
-    subnet_id                   = var.subnet_ids_list_map["database"][count.index]
+    subnet_id                   = var.subnet_ids_list_map["primary_database"][count.index]
     instance_type               = "t2.small"
     ami                         = "ami-080e1f13689e07408"
     associate_public_ip_address = false
     key_name                    = "tunefy-global-key"
-    vpc_security_group_ids      = [var.tunefy_database_SG_id] 
+    vpc_security_group_ids      = [var.tunefy_primary_database_SG_id]
+    user_data                   = var.chef_nodes_provision_scripts[3].content
 
     tags = {
-        Name = "tunefy-database"
+        Name = "tunefy-primary-database"
+    }
+    root_block_device {
+      volume_type = "gp2"
+      volume_size = 8
+    }
+}
+
+resource "aws_instance" "replica_database" {
+    count = length(var.subnet_ids_list_map["replica_database"])
+
+    subnet_id                   = var.subnet_ids_list_map["replica_database"][count.index]
+    instance_type               = "t2.small"
+    ami                         = "ami-080e1f13689e07408"
+    associate_public_ip_address = false
+    key_name                    = "tunefy-global-key"
+    vpc_security_group_ids      = [var.tunefy_replica_database_SG_id]
+    user_data                   = var.chef_nodes_provision_scripts[4].content
+
+    tags = {
+        Name = "tunefy-replica-database"
     }
     root_block_device {
       volume_type = "gp2"
@@ -84,6 +107,7 @@ resource "aws_instance" "cicd" {
     associate_public_ip_address = false
     key_name                    = "tunefy-global-key"
     vpc_security_group_ids      = [var.tunefy_cicd_SG_id] 
+    user_data                   = var.chef_nodes_provision_scripts[5].content
 
     tags = {
         Name = "tunefy-cicd"
@@ -94,16 +118,16 @@ resource "aws_instance" "cicd" {
     }
 }
 
-resource "aws_instance" "k8s-master" {
-    count = length(var.subnet_ids_list_map["k8s-master"])
+resource "aws_instance" "k8s_master" {
+    count = length(var.subnet_ids_list_map["k8s_master"])
 
-    subnet_id                   = var.subnet_ids_list_map["k8s-master"][count.index]
+    subnet_id                   = var.subnet_ids_list_map["k8s_master"][count.index]
     instance_type               = "t2.medium"
     ami                         = "ami-080e1f13689e07408"
     associate_public_ip_address = false
     key_name                    = "tunefy-global-key"
     vpc_security_group_ids      = [var.tunefy_k8s_master_SG_id] 
-
+    user_data                   = var.chef_nodes_provision_scripts[6].content
 
     tags = {
         Name = "tunefy-k8s-master"

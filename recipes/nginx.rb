@@ -1,11 +1,9 @@
-# recipes/default.rb
-
-# Instalar el paquete Nginx
+# Install nginx
 package 'nginx' do
     action :install
   end
   
-  # Iniciar y habilitar el servicio Nginx
+  # Initiate nginx service
   service 'nginx' do
     action [:enable, :start]
   end
