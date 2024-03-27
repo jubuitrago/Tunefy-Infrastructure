@@ -86,7 +86,6 @@ execute 'pull_kubernetes_images' do
   command 'sudo kubeadm config images pull --cri-socket unix:///run/containerd/containerd.sock'
 end
 
-# IMPORTANT: Replace INSTANCE_PRIVATE_IP with the actual private IP of your instance
 execute 'initialize_kubernetes_cluster' do
   command 'sudo kubeadm init --apiserver-advertise-address=INSTANCE_PRIVATE_IP --pod-network-cidr=10.244.0.0/16 --ignore-preflight-errors=all'
 end
