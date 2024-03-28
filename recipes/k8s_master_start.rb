@@ -12,9 +12,9 @@ bash 'start_kubernetes_cluster' do
         cat /home/ubuntu/.docker/config.json | base64
         kubectl create secret generic myregistrykey --from-file=.dockerconfigjson=/home/ubuntu/.docker/config.json --type=kubernetes.io/dockerconfigjson
 
-        #sudo kubectl apply -f app_configs.yaml
-        #sudo kubectl apply -f app_secrets.yaml
-        #sudo kubectl apply -f frontend.yaml
-        #sudo kubectl apply -f backend.yaml
+        sudo kubectl apply -f app_configs.yaml
+        sudo kubectl apply -f app_secrets.yaml
+        sudo kubectl apply -f frontend.yaml
+        sudo kubectl apply -f backend.yaml
     EOH
   end

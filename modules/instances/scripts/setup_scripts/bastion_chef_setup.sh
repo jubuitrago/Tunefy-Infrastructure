@@ -7,7 +7,7 @@ sudo wget https://raw.githubusercontent.com/jubuitrago/Tunefy-Infrastructure/mai
 sudo wget https://raw.githubusercontent.com/jubuitrago/Tunefy-Infrastructure/main/recipes/k8s_master_setup.rb
 sudo wget https://raw.githubusercontent.com/jubuitrago/Tunefy-Infrastructure/main/recipes/k8s_master_start.rb
 
-sudo sed -i "s/INSTANCE_PRIVATE_IP/$K8S_MASTER_1_IP/g" k8s_master_setup.rb
+sudo sed -i "s/INSTANCE_PRIVATE_IP/10.0.0.87/g" k8s_master_setup.rb
 sudo knife cookbook upload tunefy_cookbook
 
 echo "10.0.0.52 frontend1" | sudo tee -a /etc/hosts
