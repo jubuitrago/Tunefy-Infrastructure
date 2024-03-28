@@ -15,5 +15,5 @@ variable "cicd_instances_ip_list" {}
 variable "k8s_master_instances_ip_list" {}
 
 variable "chef_nodes_names_list" {
-  default = ["nginx", "frontend", "backend", "primary_database", "replica_database", "cicd", "k8s_master"]
+  default = ["nginx1", "nginx2", "frontend1", "frontend2", "backend1", "backend2", "primarydatabase", "replicadatabase", "cicd", "k8smaster1", "k8smaster2"]
 }

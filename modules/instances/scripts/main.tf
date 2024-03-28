@@ -19,7 +19,6 @@ resource "local_file" "bastion_chef_setup" {
     CICD_IP               = var.cicd_instances_ip_list[0]
     K8S_MASTER_1_IP       = var.k8s_master_instances_ip_list[0]
     K8S_MASTER_2_IP       = var.k8s_master_instances_ip_list[1]
-    BASTION_IP            = var.bastion_instance_ip_list[0]
   })
 }
 
