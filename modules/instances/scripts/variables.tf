@@ -17,3 +17,5 @@ variable "k8s_master_instances_ip_list" {}
 variable "chef_nodes_names_list" {
   default = ["nginx1", "nginx2", "frontend1", "frontend2", "backend1", "backend2", "primarydatabase", "replicadatabase", "cicd", "k8smaster1", "k8smaster2"]
 }
+
+variable "internet_facing_load_balancer_url" {}

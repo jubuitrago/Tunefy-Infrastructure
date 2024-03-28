@@ -111,4 +111,5 @@ module "scripts" {
   replica_database_instances_ip_list  = module.EC2.replica_database_instances_ip_list
   cicd_instances_ip_list              = module.EC2.cicd_instances_ip_list
   k8s_master_instances_ip_list        = module.EC2.k8s_master_instances_ip_list
+  internet_facing_load_balancer_url   = module.load_balancer.internet_facing_load_balancer_url
 }
