@@ -11,6 +11,11 @@ bash 'start_kubernetes_cluster' do
         sudo sed -i 's/PRIMARY_DATABASE_IP/$PRIMARY_DATABASE_IP/g' app_configs.yaml
         sudo sed -i 's/PUBLIC_LB_URL/$PUBLIC_LB_URL/g' app_configs.yaml
 
+        sudo kubectl label nodes frontend1 app=frontend1
+        sudo kubectl label nodes frontend2 app=frontend2
+        sudo kubectl label nodes backend1 app=backend1
+        sudo kubectl label nodes backend2 app=backend2
+
         cat /home/ubuntu/.docker/config.json | base64
         kubectl create secret generic myregistrykey --from-file=.dockerconfigjson=/home/ubuntu/.docker/config.json --type=kubernetes.io/dockerconfigjson
 
