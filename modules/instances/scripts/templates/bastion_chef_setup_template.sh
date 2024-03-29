@@ -56,13 +56,9 @@ sudo knife ssh "name:backend_node_2" "sudo $JOIN_COMMAND" -x ubuntu -i /home/ubu
 
 
 
-#remove recipe from k8s_master_1
+
 knife node run_list remove k8s_master_node_1 'recipe[tunefy_cookbook::k8s_master_setup]'
-
-#Reboot machine
 sudo knife ssh 'name:k8s_master_node_1' "sudo usermod -aG docker $USER && sudo reboot" -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
-
-#export variables to k8s_master-1 and login to docker
 sudo knife ssh 'name:k8s_master_node_1' 'docker login -u username -p password' -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
 
 #Add start recipe to run-list
