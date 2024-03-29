@@ -10,6 +10,7 @@ sudo wget https://raw.githubusercontent.com/jubuitrago/Tunefy-Infrastructure/mai
 sudo sed -i "s/INSTANCE_PRIVATE_IP/${K8S_MASTER_1_IP}/g" k8s_master_setup.rb
 sudo knife cookbook upload tunefy_cookbook
 
+echo "${NGINX_1_IP} nginx1" | sudo tee -a /etc/hosts
 echo "${FRONTEND_1_IP} frontend1" | sudo tee -a /etc/hosts
 echo "${FRONTEND_2_IP} frontend2" | sudo tee -a /etc/hosts
 echo "${BACKEND_1_IP} backend1" | sudo tee -a /etc/hosts
