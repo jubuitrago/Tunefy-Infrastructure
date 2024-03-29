@@ -1,5 +1,7 @@
 bash 'start_kubernetes_cluster' do
     code <<-EOH
+
+        pwd
         sudo kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
 
         sudo wget https://raw.githubusercontent.com/jubuitrago/Tunefy-infrastructure/main/kubernetes_scripts/app_configs.yaml
