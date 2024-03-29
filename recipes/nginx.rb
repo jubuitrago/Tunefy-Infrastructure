@@ -5,7 +5,7 @@ bash 'install_and_configure_nginx' do
     echo 'server {
 
     location / {
-        proxy_pass http://10.0.0.56:30000;
+        proxy_pass http://FRONTEND_IP;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
