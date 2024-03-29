@@ -14,7 +14,6 @@ bash 'install_and_configure_nginx' do
           proxy_set_header X-Forwarded-Proto $scheme;
         }
       }
-    }
 EOF
 
     sudo systemctl restart nginx
