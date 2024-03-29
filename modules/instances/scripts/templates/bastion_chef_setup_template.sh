@@ -7,10 +7,16 @@ sudo wget https://raw.githubusercontent.com/jubuitrago/Tunefy-Infrastructure/mai
 sudo wget https://raw.githubusercontent.com/jubuitrago/Tunefy-Infrastructure/main/recipes/k8s_master_setup.rb
 sudo wget https://raw.githubusercontent.com/jubuitrago/Tunefy-Infrastructure/main/recipes/k8s_master_start.rb
 
+cp nginx.rb nginx1.rb
+cp nginx.rb nginx2.rb
+sudo sed -i "s/FRONTEND_IP/${FRONTEND_1_IP}:30000/g" nginx1.rb
+sudo sed -i "s/FRONTEND_IP/${FRONTEND_2_IP}:30000/g" nginx2.rb
 sudo sed -i "s/INSTANCE_PRIVATE_IP/${K8S_MASTER_1_IP}/g" k8s_master_setup.rb
+
 sudo knife cookbook upload tunefy_cookbook
 
 echo "${NGINX_1_IP} nginx1" | sudo tee -a /etc/hosts
+echo "${NGINX_2_IP} nginx2" | sudo tee -a /etc/hosts
 echo "${FRONTEND_1_IP} frontend1" | sudo tee -a /etc/hosts
 echo "${FRONTEND_2_IP} frontend2" | sudo tee -a /etc/hosts
 echo "${BACKEND_1_IP} backend1" | sudo tee -a /etc/hosts
@@ -20,8 +26,6 @@ echo "${K8S_MASTER_2_IP} k8smaster2" | sudo tee -a /etc/hosts
 
 sudo knife bootstrap ${K8S_MASTER_1_IP}         -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N k8s_master_node_1       --run-list 'recipe[tunefy_cookbook::k8s_master_setup]'
 sudo knife bootstrap ${K8S_MASTER_2_IP}         -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N k8s_master_node_2       --run-list 'recipe[tunefy_cookbook::k8s_master_setup]'
-sudo knife bootstrap ${NGINX_1_IP}              -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N nginx_node_1            --run-list 'recipe[tunefy_cookbook::nginx]'
-sudo knife bootstrap ${NGINX_2_IP}              -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N nginx_node_2            --run-list 'recipe[tunefy_cookbook::nginx]'
 sudo knife bootstrap ${FRONTEND_1_IP}           -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N frontend_node_1         --run-list 'recipe[tunefy_cookbook::k8s_nodes_setup]'
 sudo knife bootstrap ${FRONTEND_2_IP}           -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N frontend_node_2         --run-list 'recipe[tunefy_cookbook::k8s_nodes_setup]'
 sudo knife bootstrap ${BACKEND_1_IP}            -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N backend_node_1          --run-list 'recipe[tunefy_cookbook::k8s_nodes_setup]'
@@ -31,10 +35,10 @@ sudo knife bootstrap ${BACKEND_2_IP}            -U ubuntu -p 22 --sudo -i /home/
 #sudo knife bootstrap ${CICD_IP}                 -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N cicd_node
 
 #setup nginx_1
-sudo knife ssh 'name:nginx_node_1' 'sudo sed -i "s/FRONTEND_IP/${FRONTEND_1_IP}:30000/g" /etc/nginx/sites-available/default' -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
+sudo knife bootstrap ${NGINX_1_IP}              -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N nginx_node_1            --run-list 'recipe[tunefy_cookbook::nginx1]'
 
 #setup nginx_2
-sudo knife ssh 'name:nginx_node_2' 'sudo sed -i "s/FRONTEND_IP/${FRONTEND_2_IP}:30000/g" /etc/nginx/sites-available/default' -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
+sudo knife bootstrap ${NGINX_2_IP}              -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N nginx_node_2            --run-list 'recipe[tunefy_cookbook::nginx]'
 
 #Join frontend_node_1
 JOIN_COMMAND=$(sudo knife ssh 'name:k8s_master_node_1' 'sudo kubeadm token create --print-join-command' -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem | grep -o 'kubeadm.*' | tr -d '\r')
