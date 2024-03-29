@@ -5,7 +5,7 @@ metadata:
   labels:
     app: backend-deployment
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: backend
@@ -14,6 +14,16 @@ spec:
       labels:
         app: backend
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - backend1
+                - backend2
       containers:
       - name: backend
         image: jubuitrago/tunefy:prod-backend-0.0.5

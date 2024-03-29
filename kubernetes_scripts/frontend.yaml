@@ -5,7 +5,7 @@ metadata:
   labels:
     app: frontend-deployment
 spec:
-  replicas: 1
+  replicas: 2  # Cambia el número de réplicas según tu necesidad
   selector:
     matchLabels:
       app: frontend
@@ -14,6 +14,16 @@ spec:
       labels:
         app: frontend
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - frontend1
+                - frontend2
       containers:
       - name: frontend
         image: jubuitrago/tunefy:prod-frontend-0.0.5
@@ -33,7 +43,6 @@ spec:
       imagePullSecrets:
       - name: myregistrykey
 
----
 apiVersion: v1
 kind: Service
 metadata:
