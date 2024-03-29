@@ -1,6 +1,6 @@
 bash 'start_kubernetes_cluster' do
     code <<-EOH
-
+        cd /home/ubuntu
         pwd
         sudo kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
 
