@@ -57,3 +57,7 @@ output "k8s_nodes_ip_list" {
     [for instance in aws_instance.backend : instance.private_ip]
   )
 }
+
+output "k8s_master_ip_list" {
+  value = [for instance in aws_instance.k8s_master : instance.private_ip]
+}

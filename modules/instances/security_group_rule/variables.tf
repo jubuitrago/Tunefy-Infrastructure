@@ -16,10 +16,16 @@ variable "tunefy_k8s_master_SG_id" {}
 
 variable "tunefy_cicd_SG_id" {}
 
+variable "tunefy_internet_facing_ALB_SG_id" {}
+
 variable "bastion_instance_ip_list" {}
+
+variable "nginx_instances_ip_list" {}
      
 variable "SG_ids_list" {}
 
 variable "chef_nodes_ip_list" {}
 
 variable "k8s_nodes_ip_list" {}
+
+variable "k8s_master_ip_list" {}

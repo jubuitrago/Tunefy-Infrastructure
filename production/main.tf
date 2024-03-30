@@ -78,6 +78,7 @@ module "load_balancer" {
   backend_load_balancer_name          = var.backend_load_balancer_name 
   nginx_instances_id_list             = module.EC2.nginx_instances_id_list
   backend_instances_id_list           = module.EC2.backend_instances_id_list
+  tunefy_internet_facing_ALB_SG_id    = module.security_group.tunefy_internet_facing_ALB_SG_id
 }
 
 module "security_group_rule" {
@@ -93,11 +94,14 @@ module "security_group_rule" {
   tunefy_replica_database_SG_id         = module.security_group.tunefy_replica_database_SG_id
   tunefy_k8s_master_SG_id               = module.security_group.tunefy_k8s_master_SG_id
   tunefy_cicd_SG_id                     = module.security_group.tunefy_cicd_SG_id
+  tunefy_internet_facing_ALB_SG_id      = module.security_group.tunefy_internet_facing_ALB_SG_id
   SG_ids_list                           = module.security_group.SG_ids_list
 
   bastion_instance_ip_list              = module.EC2.bastion_instance_ip_list
+  nginx_instances_ip_list                = module.EC2.nginx_instances_ip_list
   chef_nodes_ip_list                    = module.EC2.chef_nodes_ip_list
   k8s_nodes_ip_list                     = module.EC2.k8s_nodes_ip_list
+  k8s_master_ip_list                    = module.EC2.k8s_master_ip_list
 }
 
 module "scripts" {

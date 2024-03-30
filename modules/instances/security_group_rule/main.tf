@@ -39,3 +39,43 @@ resource "aws_vpc_security_group_ingress_rule" "allow_TCP6443_from_k8s_node_inst
     to_port             = 6443
     ip_protocol         = "tcp"
 }
+
+#K8S-NODES-SG RULES
+resource "aws_vpc_security_group_ingress_rule" "backend_allow_TCP10250_from_k8s_master_instances" {
+    count = length(var.k8s_master_ip_list)
+
+    security_group_id   = var.tunefy_backend_SG_id
+    cidr_ipv4           = format("%s/32", var.k8s_master_ip_list[count.index])
+    from_port           = 10250
+    to_port             = 10251
+    ip_protocol         = "tcp"
+}
+
+resource "aws_vpc_security_group_ingress_rule" "frontend_allow_TCP10250_from_k8s_master_instances" {
+    count = length(var.k8s_master_ip_list)
+
+    security_group_id   = var.tunefy_frontend_SG_id
+    cidr_ipv4           = format("%s/32", var.k8s_master_ip_list[count.index])
+    from_port           = 10250
+    to_port             = 10251
+    ip_protocol         = "tcp"
+}
+
+resource "aws_vpc_security_group_ingress_rule" "frontend_allow_TCP30000_from_nginx_instances" {
+    count = length(var.nginx_instances_ip_list)
+
+    security_group_id   = var.tunefy_frontend_SG_id
+    cidr_ipv4           = format("%s/32", var.nginx_instances_ip_list[count.index])
+    from_port           = 30000
+    to_port             = 30000
+    ip_protocol         = "tcp"
+}
+
+#INTERNET-FACING LOAD BALANCER RULES
+resource "aws_vpc_security_group_ingress_rule" "allow_TCP80_from_internet" {
+    security_group_id   = var.tunefy_internet_facing_ALB_SG_id
+    cidr_ipv4           = "0.0.0.0/0"
+    from_port           = 80
+    to_port             = 80
+    ip_protocol         = "tcp"
+}

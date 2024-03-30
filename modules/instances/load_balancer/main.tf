@@ -3,7 +3,7 @@ resource "aws_lb" "internet_facing" {
   name = var.internet_facing_load_balancer_name
   internal = false
   load_balancer_type = "application"
-  #security_groups =
+  security_groups = [var.tunefy_internet_facing_ALB_SG_id]
   subnets = [for subnet in var.public_subnets : subnet.id if subnet.tags["Name"] == "public-subnet-nginx-1a" || subnet.tags["Name"] == "public-subnet-nginx-1b"]
 }
 

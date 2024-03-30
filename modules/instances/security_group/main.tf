@@ -122,3 +122,18 @@ resource "aws_security_group" "tunefy-cicd-SG" {
         cidr_blocks      = ["0.0.0.0/0"]
     }
 }
+
+#INTERNET-FACING-SG
+resource "aws_security_group" "tunefy-internet-facing-ALB-SG" {
+    name = "tunefy-internet-facing-ALB-SG"
+    vpc_id = var.vpc_id
+    tags = {
+        Name = "tunefy-internet-facing-ALB-SG"
+    }
+    egress {
+        protocol    = "-1"
+        from_port   = "0"
+        to_port     = "0"
+        cidr_blocks      = ["0.0.0.0/0"]
+    }
+}

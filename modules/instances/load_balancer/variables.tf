@@ -11,3 +11,5 @@ variable "vpc_id" {}
 variable "nginx_instances_id_list" {}
 
 variable "backend_instances_id_list" {}
+
+variable "tunefy_internet_facing_ALB_SG_id" {}
