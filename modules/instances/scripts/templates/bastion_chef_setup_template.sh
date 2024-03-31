@@ -29,6 +29,8 @@ echo "${BACKEND_1_IP} backend1" | sudo tee -a /etc/hosts
 echo "${BACKEND_2_IP} backend2" | sudo tee -a /etc/hosts
 echo "${K8S_MASTER_1_IP} k8smaster1" | sudo tee -a /etc/hosts
 echo "${K8S_MASTER_2_IP} k8smaster2" | sudo tee -a /etc/hosts
+echo "${PRIMARY_DATABASE_IP} primarydatabase" | sudo tee -a /etc/hosts
+echo "${REPLICA_DATABASE_IP} replicadatabase" | sudo tee -a /etc/hosts
 
 sudo knife bootstrap ${NGINX_1_IP}             -y -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N nginx_node_1            --run-list 'recipe[tunefy_cookbook::nginx1]'
 sudo knife bootstrap ${NGINX_2_IP}             -y -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N nginx_node_2            --run-list 'recipe[tunefy_cookbook::nginx2]'

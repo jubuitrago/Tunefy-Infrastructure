@@ -10,7 +10,7 @@ bash 'install_and_configure_replica_database' do
         sudo su - postgres
         cp -R /var/lib/postgresql/16/main /var/lib/postgresql/16/main_bak
         rm -rf /var/lib/postgresql/16/main/*
-        pg_basebackup -h PRIMARY_DATABASE_IPX -D /var/lib/postgresql/16/main -U replicator -P -v -R -w
+        sudo pg_basebackup -h PRIMARY_DATABASE_IPX -D /var/lib/postgresql/16/main -U replicator -P -v -R -w
         sudo systemctl start postgresql
     EOH
 end
