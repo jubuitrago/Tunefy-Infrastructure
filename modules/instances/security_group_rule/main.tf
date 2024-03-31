@@ -79,3 +79,12 @@ resource "aws_vpc_security_group_ingress_rule" "allow_TCP80_from_internet" {
     to_port             = 80
     ip_protocol         = "tcp"
 }
+
+#PRIMARY-DATABASE RULES
+resource "aws_vpc_security_group_ingress_rule" "allow_TCP5432_from_replica_database" {
+    security_group_id   = var.tunefy_primary_database_SG_id
+    cidr_ipv4           = format("%s/32", var.replica_database_instances_ip_list[0])
+    from_port           = 5432
+    to_port             = 5432
+    ip_protocol         = "tcp"
+}

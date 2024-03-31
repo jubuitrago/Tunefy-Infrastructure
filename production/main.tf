@@ -102,6 +102,7 @@ module "security_group_rule" {
   chef_nodes_ip_list                    = module.EC2.chef_nodes_ip_list
   k8s_nodes_ip_list                     = module.EC2.k8s_nodes_ip_list
   k8s_master_ip_list                    = module.EC2.k8s_master_ip_list
+  replica_database_instances_ip_list    = module.EC2.replica_database_instances_ip_list
 }
 
 module "scripts" {
