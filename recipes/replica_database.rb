@@ -7,10 +7,9 @@ bash 'install_and_configure_replica_database' do
         
         sudo systemctl stop postgresql
         sudo sed -i "s/#hot_standby = on/hot_standby = on/" /etc/postgresql/16/main/postgresql.conf
-        sudo su - postgres
-        cp -R /var/lib/postgresql/16/main /var/lib/postgresql/16/main_bak
-        rm -rf /var/lib/postgresql/16/main/*
-        pg_basebackup -h PRIMARY_DATABASE_IPX -D /var/lib/postgresql/16/main -U replicator -P -v -R -w
-        sudo -u ubuntu systemctl start postgresql
+        sudo -u postgres cp -R /var/lib/postgresql/16/main /var/lib/postgresql/16/main_bak
+        sudo -u postgres rm -rf /var/lib/postgresql/16/main/*
+        sudo -u postgres pg_basebackup -h PRIMARY_DATABASE_IPX -D /var/lib/postgresql/16/main -U replicator -P -v -R -w
+        sudo systemctl start postgresql
     EOH
 end
