@@ -6,6 +6,8 @@ sudo wget https://raw.githubusercontent.com/jubuitrago/Tunefy-Infrastructure/mai
 sudo wget https://raw.githubusercontent.com/jubuitrago/Tunefy-Infrastructure/main/recipes/k8s_nodes_setup.rb
 sudo wget https://raw.githubusercontent.com/jubuitrago/Tunefy-Infrastructure/main/recipes/k8s_master_setup.rb
 sudo wget https://raw.githubusercontent.com/jubuitrago/Tunefy-Infrastructure/main/recipes/k8s_master_start.rb
+sudo wget https://raw.githubusercontent.com/jubuitrago/Tunefy-Infrastructure/main/recipes/primary_database.rb
+sudo wget https://raw.githubusercontent.com/jubuitrago/Tunefy-Infrastructure/main/recipes/replica_database.rb
 
 sudo cp nginx.rb nginx1.rb
 sudo cp nginx.rb nginx2.rb
@@ -14,6 +16,8 @@ sudo sed -i "s/FRONTEND_IP/${FRONTEND_2_IP}:30000/g" nginx2.rb
 sudo sed -i "s/INSTANCE_PRIVATE_IP/${K8S_MASTER_1_IP}/g" k8s_master_setup.rb
 sudo sed -i "s/PRIMARY_DATABASE_IPX/${PRIMARY_DATABASE_IP}/g" k8s_master_start.rb
 sudo sed -i "s/PUBLIC_LB_URLX/${PUBLIC_LB_URL}/g" k8s_master_start.rb
+sudo sed -i "s/REPLICA_DATABASE_IPX/${REPLICA_DATABASE_IP}/32/g" replica_database.rb
+sudo sed -i "s/PRIMARY_DATABASE_IPX/${PRIMARY_DATABASE_IP}/g" replica_database.rb
 
 sudo knife cookbook upload tunefy_cookbook
 
@@ -34,8 +38,8 @@ sudo knife bootstrap ${FRONTEND_1_IP}           -U ubuntu -p 22 --sudo -i /home/
 sudo knife bootstrap ${FRONTEND_2_IP}           -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N frontend_node_2         --run-list 'recipe[tunefy_cookbook::k8s_nodes_setup]'
 sudo knife bootstrap ${BACKEND_1_IP}            -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N backend_node_1          --run-list 'recipe[tunefy_cookbook::k8s_nodes_setup]'
 sudo knife bootstrap ${BACKEND_2_IP}            -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N backend_node_2          --run-list 'recipe[tunefy_cookbook::k8s_nodes_setup]'
-#sudo knife bootstrap ${PRIMARY_DATABASE_IP}     -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N primary_database_node
-#sudo knife bootstrap ${REPLICA_DATABASE_IP}     -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N replica_database_node
+sudo knife bootstrap ${PRIMARY_DATABASE_IP}     -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N primary_database_node   --run-list 'recipe[tunefy_cookbook::primary_database]'
+sudo knife bootstrap ${REPLICA_DATABASE_IP}     -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N replica_database_node   --run-list 'recipe[tunefy_cookbook::replica_database]'
 #sudo knife bootstrap ${CICD_IP}                 -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N cicd_node
 
 #Join frontend_node_1
