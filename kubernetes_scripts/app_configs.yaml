@@ -4,6 +4,6 @@ metadata:
   name: configs
 data:
   POSTGRES_HOST: PRIMARY_DATABASE_IP
-  POSTGRES_DB: "tunefy-database"
+  POSTGRES_DB: "tunefy_database"
   PGPORT: "5432"
   PUBLIC_ALB_URL: PUBLIC_LB_URL
