@@ -16,7 +16,7 @@ sudo sed -i "s/FRONTEND_IP/${FRONTEND_2_IP}:30000/g" nginx2.rb
 sudo sed -i "s/INSTANCE_PRIVATE_IP/${K8S_MASTER_1_IP}/g" k8s_master_setup.rb
 sudo sed -i "s/PRIMARY_DATABASE_IPX/${PRIMARY_DATABASE_IP}/g" k8s_master_start.rb
 sudo sed -i "s/PUBLIC_LB_URLX/${PUBLIC_LB_URL}/g" k8s_master_start.rb
-sudo sed -i "s/REPLICA_DATABASE_IPX/${REPLICA_DATABASE_IP}/32/g" primary_database.rb
+sudo sed -i "s/REPLICA_DATABASE_IPX/${REPLICA_DATABASE_IP}/g" primary_database.rb
 sudo sed -i "s/PRIMARY_DATABASE_IPX/${PRIMARY_DATABASE_IP}/g" replica_database.rb
 
 sudo knife cookbook upload tunefy_cookbook
