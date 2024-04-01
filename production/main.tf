@@ -106,7 +106,7 @@ module "security_group_rule" {
 }
 
 module "scripts" {
-  source = "../modules/instances/scripts"
+  source = "../modules/instances/prod_scripts"
 
   bastion_instance_ip_list            = module.EC2.bastion_instance_ip_list
   nginx_instances_ip_list             = module.EC2.nginx_instances_ip_list

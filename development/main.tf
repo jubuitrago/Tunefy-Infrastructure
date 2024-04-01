@@ -50,3 +50,34 @@ module "security_group" {
 
   vpc_id   = module.vpc.vpc_id
 }
+
+module "EC2" {
+  source = "../modules/instances/EC2"
+
+  subnet_ids_list_map             = module.subnet.subnet_ids_list_map
+  tunefy_nginx_SG_id              = module.security_group.tunefy_nginx_SG_id
+  tunefy_bastion_SG_id            = module.security_group.tunefy_bastion_SG_id
+  tunefy_frontend_SG_id           = module.security_group.tunefy_frontend_SG_id
+  tunefy_backend_SG_id            = module.security_group.tunefy_backend_SG_id
+  tunefy_primary_database_SG_id   = module.security_group.tunefy_primary_database_SG_id
+  tunefy_replica_database_SG_id   = module.security_group.tunefy_replica_database_SG_id
+  tunefy_k8s_master_SG_id         = module.security_group.tunefy_k8s_master_SG_id
+  tunefy_cicd_SG_id               = module.security_group.tunefy_cicd_SG_id
+
+  bastion_provision_script        = module.scripts.bastion_provision_script
+  chef_nodes_provision_scripts    = module.scripts.chef_nodes_provision_scripts
+}
+
+module "scripts" {
+  source = "../modules/instances/dev_scripts"
+
+  bastion_instance_ip_list            = module.EC2.bastion_instance_ip_list
+  nginx_instances_ip_list             = module.EC2.nginx_instances_ip_list
+  frontend_instances_ip_list          = module.EC2.frontend_instances_ip_list
+  backend_instances_ip_list           = module.EC2.backend_instances_ip_list 
+  primary_database_instances_ip_list  = module.EC2.primary_database_instances_ip_list
+  replica_database_instances_ip_list  = module.EC2.replica_database_instances_ip_list
+  cicd_instances_ip_list              = module.EC2.cicd_instances_ip_list
+  k8s_master_instances_ip_list        = module.EC2.k8s_master_instances_ip_list
+  internet_facing_load_balancer_url   = module.load_balancer.internet_facing_load_balancer_url
+}
