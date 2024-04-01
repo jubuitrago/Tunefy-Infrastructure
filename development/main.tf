@@ -44,3 +44,9 @@ module "network_interface" {
   public_route_table_name   = var.public_route_table_name
   internet_cidr_block       = var.internet_cidr_block
 }
+
+module "security_group" {
+  source = "../modules/instances/security_group"
+
+  vpc_id   = module.vpc.vpc_id
+}
