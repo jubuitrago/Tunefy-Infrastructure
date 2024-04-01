@@ -23,7 +23,7 @@ bash 'start_kubernetes_cluster' do
         sudo kubectl apply -f app_secrets.yaml
         sudo kubectl apply -f frontend.yaml
         sudo kubectl apply -f backend.yaml
-
+        sleep 15
         sudo kubectl delete pod --all
     EOH
   end
