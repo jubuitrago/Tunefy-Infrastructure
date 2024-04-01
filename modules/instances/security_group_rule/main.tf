@@ -18,6 +18,16 @@ resource "aws_vpc_security_group_ingress_rule" "allow_SSH22_from_bastion" {
     ip_protocol         = "tcp"
 }
 
+resource "aws_vpc_security_group_ingress_rule" "allow_TCP9100_from_prometheus_server" {
+    count = length(var.SG_ids_list)
+
+    security_group_id   = var.SG_ids_list[count.index]
+    cidr_ipv4           = format("%s/32", var.bastion_instance_ip_list[0])
+    from_port           = 9100
+    to_port             = 9100
+    ip_protocol         = "tcp"
+}
+
 #TUNEFY-BASTION-SG RULES
 resource "aws_vpc_security_group_ingress_rule" "allow_HTTPS443_from_chef_node_instances" {
     count = length(var.chef_nodes_ip_list)

@@ -1,3 +1,32 @@
+#configure prometheus
+echo "  - job_name: "frontend_1"
+    scrape_interval: 10s
+    static_configs:
+      - targets: ["${FRONTEND_1_IP}"]" | sudo tee -a /etc/prometheus/prometheus.yml
+
+echo "  - job_name: "frontend_2"
+    scrape_interval: 10s
+    static_configs:
+      - targets: ["${FRONTEND_2_IP}"]" | sudo tee -a /etc/prometheus/prometheus.yml
+
+echo "  - job_name: "backend_1"
+    scrape_interval: 10s
+    static_configs:
+      - targets: ["${BACKEND_1_IP}"]" | sudo tee -a /etc/prometheus/prometheus.yml
+
+echo "  - job_name: "backend_2"
+    scrape_interval: 10s
+    static_configs:
+      - targets: ["${BACKEND_2_IP}"]" | sudo tee -a /etc/prometheus/prometheus.yml
+
+echo "  - job_name: "primary_database"
+    scrape_interval: 10s
+    static_configs:
+      - targets: ["${PRIMARY_DATABASE_IP}"]" | sudo tee -a /etc/prometheus/prometheus.yml
+
+sudo systemctl restart prometheus
+
+#configure chef
 cd /home/ubuntu/chef-repo/cookbooks
 sudo chef generate cookbook tunefy_cookbook
 cd tunefy_cookbook/recipes
