@@ -9,17 +9,11 @@ resource "local_file" "bastion_chef_setup" {
   filename = "${path.module}/setup_scripts/bastion_chef_setup.sh"
   content = templatefile("${path.module}/templates/bastion_chef_setup_template.sh", {
     NGINX_1_IP            = var.nginx_instances_ip_list[0]
-    NGINX_2_IP            = var.nginx_instances_ip_list[1]
     FRONTEND_1_IP         = var.frontend_instances_ip_list[0]
-    FRONTEND_2_IP         = var.frontend_instances_ip_list[1]
     BACKEND_1_IP          = var.backend_instances_ip_list[0]
-    BACKEND_2_IP          = var.backend_instances_ip_list[1]
     PRIMARY_DATABASE_IP   = var.primary_database_instances_ip_list[0]
-    REPLICA_DATABASE_IP   = var.replica_database_instances_ip_list[0]
     CICD_IP               = var.cicd_instances_ip_list[0]
     K8S_MASTER_1_IP       = var.k8s_master_instances_ip_list[0]
-    K8S_MASTER_2_IP       = var.k8s_master_instances_ip_list[1]
-    PUBLIC_LB_URL         = var.internet_facing_load_balancer_url
   })
 }
 
