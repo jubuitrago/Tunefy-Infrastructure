@@ -28,7 +28,7 @@ resource "aws_route_table_association" "public_subnet_associations" {
 #NAT GATEWAY
 resource "aws_nat_gateway" "main" {
   allocation_id = aws_eip.nat.id
-  subnet_id     = var.public_subnets[2].id
+  subnet_id     = var.public_subnets[0].id
   tags = {
     Name = var.nat_gateway_name
   }

@@ -30,3 +30,17 @@ module "subnet" {
   private_subnet_names              = var.private_subnet_names
   private_subnet_availability_zones = var.private_subnet_availability_zones
 }
+
+module "network_interface" {
+  source = "../modules/networking/network_interface"
+
+  vpc_id                    = module.vpc.vpc_id
+  public_subnets            = module.subnet.public_subnets
+  private_subnets           = module.subnet.private_subnets 
+
+  nat_gateway_name          = var.nat_gateway_name
+  internet_gateway_name     = var.internet_gateway_name
+  private_route_table_name  = var.private_route_table_name
+  public_route_table_name   = var.public_route_table_name
+  internet_cidr_block       = var.internet_cidr_block
+}
