@@ -27,7 +27,7 @@ resource "aws_instance" "frontend" {
     associate_public_ip_address = false
     key_name                    = "tunefy-global-key"
     vpc_security_group_ids      = [var.tunefy_frontend_SG_id]
-    user_data                   = var.chef_nodes_provision_scripts[count.index + 2].content
+    user_data                   = var.dev_env ? var.chef_nodes_provision_scripts[count.index + 1].content : var.chef_nodes_provision_scripts[count.index + 2].content
 
     tags = {
         Name = "tunefy-frontend"
@@ -47,7 +47,7 @@ resource "aws_instance" "backend" {
     associate_public_ip_address = false
     key_name                    = "tunefy-global-key"
     vpc_security_group_ids      = [var.tunefy_backend_SG_id]
-    user_data                   = var.chef_nodes_provision_scripts[count.index + 4].content
+    user_data                   = var.dev_env ? var.chef_nodes_provision_scripts[count.index + 2].content : var.chef_nodes_provision_scripts[count.index + 4].content
 
     tags = {
         Name = "tunefy-backend"
@@ -67,7 +67,7 @@ resource "aws_instance" "primary_database" {
     associate_public_ip_address = false
     key_name                    = "tunefy-global-key"
     vpc_security_group_ids      = [var.tunefy_primary_database_SG_id]
-    user_data                   = var.chef_nodes_provision_scripts[6].content
+    user_data                   = var.dev_env ? var.chef_nodes_provision_scripts[3].content : var.chef_nodes_provision_scripts[6].content
 
     tags = {
         Name = "tunefy-primary-database"
@@ -107,7 +107,7 @@ resource "aws_instance" "cicd" {
     associate_public_ip_address = false
     key_name                    = "tunefy-global-key"
     vpc_security_group_ids      = [var.tunefy_cicd_SG_id] 
-    user_data                   = var.chef_nodes_provision_scripts[8].content
+    user_data                   = var.dev_env ? var.chef_nodes_provision_scripts[4].content : var.chef_nodes_provision_scripts[8].content
 
     tags = {
         Name = "tunefy-cicd"
@@ -127,7 +127,7 @@ resource "aws_instance" "k8s_master" {
     associate_public_ip_address = false
     key_name                    = "tunefy-global-key"
     vpc_security_group_ids      = [var.tunefy_k8s_master_SG_id] 
-    user_data                   = var.chef_nodes_provision_scripts[count.index + 9].content
+    user_data                   = var.dev_env ? var.chef_nodes_provision_scripts[count.index + 5].content : var.chef_nodes_provision_scripts[count.index + 9].content
 
     tags = {
         Name = "tunefy-k8s-master"

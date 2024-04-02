@@ -54,6 +54,8 @@ module "security_group" {
 module "EC2" {
   source = "../modules/instances/EC2"
 
+  dev_env                         = var.dev_env 
+
   subnet_ids_list_map             = module.subnet.subnet_ids_list_map
   tunefy_nginx_SG_id              = module.security_group.tunefy_nginx_SG_id
   tunefy_bastion_SG_id            = module.security_group.tunefy_bastion_SG_id

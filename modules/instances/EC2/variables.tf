@@ -19,3 +19,5 @@ variable "subnet_ids_list_map" {}
 variable "bastion_provision_script" {}
 
 variable "chef_nodes_provision_scripts" {}
+
+variable "dev_env" {}
