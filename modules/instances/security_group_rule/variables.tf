@@ -1,4 +1,4 @@
-variable "internet_facing_load_balancer_exists" {}
+variable "dev_env" {}
 
 variable "tunefy_bastion_SG_id" {}  
 

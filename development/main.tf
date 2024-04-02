@@ -84,7 +84,7 @@ module "scripts" {
 module "security_group_rule" {
   source = "../modules/instances/security_group_rule"
 
-  internet_facing_load_balancer_exists  = module.load_balancer.internet_facing_load_balancer_exists
+  dev_env                               = var.dev_env
   
   tunefy_nginx_SG_id                    = module.security_group.tunefy_nginx_SG_id
   tunefy_bastion_SG_id                  = module.security_group.tunefy_bastion_SG_id

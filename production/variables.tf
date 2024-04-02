@@ -14,6 +14,10 @@ variable "vpc_name" {
   type = string
   default     = ""
 }
+variable "dev_env" {
+  type = bool
+  default = false
+}
 
 
 #PUBLIC SUBNETS

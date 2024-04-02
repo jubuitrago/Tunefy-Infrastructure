@@ -1,7 +1,7 @@
 #TUNEFY-NGINX-SG RULES
 resource "aws_vpc_security_group_ingress_rule" "allow_HTTP80_from_public_alb" {
     security_group_id = var.tunefy_nginx_SG_id
-    cidr_ipv4   = var.internet_facing_load_balancer_exists ? "10.0.0.0/27" : "0.0.0.0/0"
+    cidr_ipv4   = var.dev_env ? "0.0.0.0/0" : "10.0.0.0/27"
     from_port   = 80
     to_port     = 80
     ip_protocol = "tcp"
@@ -93,7 +93,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_TCP80_from_internet" {
 #PRIMARY-DATABASE RULES
 resource "aws_vpc_security_group_ingress_rule" "allow_TCP5432_from_replica_database" {
     security_group_id   = var.tunefy_primary_database_SG_id
-    cidr_ipv4           = format("%s/32", var.replica_database_instances_ip_list[0])
+    cidr_ipv4           = var.dev_env ? "1.1.1.1/32" : format("%s/32", var.replica_database_instances_ip_list[0])
     from_port           = 5432
     to_port             = 5432
     ip_protocol         = "tcp"

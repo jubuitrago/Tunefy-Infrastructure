@@ -4,6 +4,7 @@ aws_region = "us-east-1"
 #VPC
 vpc_cidr_block = "10.0.0.0/24"
 vpc_name = "Tunefy-production-IAC"
+dev_env = false
 
 #PUBLIC SUBNETS
 public_subnet_cidr_blocks               = ["10.0.0.0/28", "10.0.0.16/28", "10.0.0.32/28"]
