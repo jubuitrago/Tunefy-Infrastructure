@@ -19,6 +19,7 @@ bash 'install_and_configure_github_runner' do
     payload=$(curl -sX POST -H "Authorization: token GITHUB_PERSONAL_TOKEN" ${registration_url})
     export RUNNER_TOKEN=$(echo $payload | jq .token --raw-output)
 
+    cd $HOME
     mkdir actions-runner
     cd $HOME/actions-runner
     curl -o actions-runner-linux-x64-2.314.1.tar.gz -L https://github.com/actions/runner/releases/download/v2.314.1/actions-runner-linux-x64-2.314.1.tar.gz
