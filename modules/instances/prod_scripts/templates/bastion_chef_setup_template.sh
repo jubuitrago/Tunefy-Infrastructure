@@ -48,6 +48,7 @@ sudo sed -i "s/PRIMARY_DATABASE_IPX/${PRIMARY_DATABASE_IP}/g" k8s_master_start.r
 sudo sed -i "s/PUBLIC_LB_URLX/${PUBLIC_LB_URL}/g" k8s_master_start.rb
 sudo sed -i "s/REPLICA_DATABASE_IPX/${REPLICA_DATABASE_IP}/g" primary_database.rb
 sudo sed -i "s/PRIMARY_DATABASE_IPX/${PRIMARY_DATABASE_IP}/g" replica_database.rb
+sudo sed -i "s/GITHUB_PERSONAL_TOKEN//g" github_runner.rb
 
 sudo knife cookbook upload tunefy_cookbook
 
@@ -73,7 +74,7 @@ sudo knife bootstrap ${BACKEND_1_IP}           -y -U ubuntu -p 22 --sudo -i /hom
 sudo knife bootstrap ${BACKEND_2_IP}           -y -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N backend_node_2          --run-list 'recipe[tunefy_cookbook::k8s_nodes_setup]'
 sudo knife bootstrap ${PRIMARY_DATABASE_IP}    -y -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N primary_database_node   --run-list 'recipe[tunefy_cookbook::primary_database]'
 sudo knife bootstrap ${REPLICA_DATABASE_IP}    -y -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N replica_database_node   --run-list 'recipe[tunefy_cookbook::replica_database]'
-#sudo knife bootstrap ${CICD_IP}                -y -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N cicd_node
+sudo knife bootstrap ${CICD_IP}                -y -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N cicd_node               --run-list 'recipe[tunefy_cookbook::github_runner]'
 
 #Join frontend_node_1
 JOIN_COMMAND=$(sudo knife ssh 'name:k8s_master_node_1' 'sudo kubeadm token create --print-join-command' -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem | grep -o 'kubeadm.*' | tr -d '\r')

@@ -1,4 +1,4 @@
-bash 'install_and_configure_nginx' do
+bash 'install_and_configure_github_runner' do
     code <<-EOH
     sudo apt-get update
     sudo apt-get install ca-certificates curl
