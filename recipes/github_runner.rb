@@ -16,7 +16,7 @@ bash 'install_and_configure_nginx' do
 
     registration_url="https://api.github.com/repos/jubuitrago/Tunefy/actions/runners/registration-token"
     echo "Requesting registration URL at '${registration_url}'"
-    payload=$(curl -sX POST -H "Authorization: token ${GITHUB_PERSONAL_TOKEN}" ${registration_url})
+    payload=$(curl -sX POST -H "Authorization: token GITHUB_PERSONAL_TOKEN" ${registration_url})
     export RUNNER_TOKEN=$(echo $payload | jq .token --raw-output)
 
     mkdir actions-runner && cd actions-runner
@@ -29,8 +29,7 @@ bash 'install_and_configure_nginx' do
     -- labels my-runner \
     --url https://github.com/jubuitrago/Tunefy \
     --work "/work" \
-    --unattended \
-    --replace
+    --unattended
 
     sudo ./svc.sh install
     sudo ./svc.sh start
