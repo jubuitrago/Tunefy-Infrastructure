@@ -14,6 +14,7 @@ resource "local_file" "bastion_chef_setup" {
     PRIMARY_DATABASE_IP   = var.primary_database_instances_ip_list[0]
     CICD_IP               = var.cicd_instances_ip_list[0]
     K8S_MASTER_1_IP       = var.k8s_master_instances_ip_list[0]
+    RUNNER_NAME           = var.dev_env ? "dev-runner" : "production-runner"
   })
 }
 

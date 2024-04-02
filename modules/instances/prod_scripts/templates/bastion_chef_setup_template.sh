@@ -49,6 +49,8 @@ sudo sed -i "s/PUBLIC_LB_URLX/${PUBLIC_LB_URL}/g" k8s_master_start.rb
 sudo sed -i "s/REPLICA_DATABASE_IPX/${REPLICA_DATABASE_IP}/g" primary_database.rb
 sudo sed -i "s/PRIMARY_DATABASE_IPX/${PRIMARY_DATABASE_IP}/g" replica_database.rb
 sudo sed -i "s/GITHUB_PERSONAL_TOKEN//g" github_runner.rb
+sudo sed -i "s/RUNNER_NAME/${RUNNER_NAME}/g" github_runner.rb
+sudo sed -i "s/RUNNER_LABEL/${RUNNER_NAME}/g" github_runner.rb
 
 sudo knife cookbook upload tunefy_cookbook
 
@@ -104,3 +106,7 @@ sudo knife ssh 'name:k8s_master_node_1' 'docker login -u username -p password' -
 sudo knife ssh 'name:k8s_master_node_1' 'sudo kubectl get nodes' -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
 sudo knife node run_list add k8s_master_node_1 'recipe[tunefy_cookbook::k8s_master_start]'
 sudo knife ssh 'name:k8s_master_node_1' 'sudo chef-client' -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
+
+#check results
+sudo knife ssh 'name:k8s_master_node_1' 'sudo kubectl get nodes' -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
+sudo knife ssh 'name:k8s_master_node_1' 'sudo kubectl get pod -o wide' -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem

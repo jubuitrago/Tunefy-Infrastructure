@@ -30,7 +30,7 @@ bash 'install_and_configure_github_runner' do
     payload=$(curl -sX POST -H "Authorization: token GITHUB_PERSONAL_TOKEN" ${registration_url})
     export RUNNER_TOKEN=$(echo $payload | jq .token --raw-output)
     
-    ./config.sh --name Runner --token ${RUNNER_TOKEN} -- labels my-runner --url https://github.com/jubuitrago/Tunefy --work "/work" --unattended
+    ./config.sh --name RUNNER_NAME --token ${RUNNER_TOKEN} -- labels RUNNER_LABEL --url https://github.com/jubuitrago/Tunefy --work "/work" --unattended
 
     sudo ./svc.sh install
     sudo ./svc.sh start

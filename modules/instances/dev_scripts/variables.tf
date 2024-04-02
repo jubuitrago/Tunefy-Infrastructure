@@ -17,3 +17,5 @@ variable "k8s_master_instances_ip_list" {}
 variable "chef_nodes_names_list" {
   default = ["nginx1", "frontend1", "backend1", "primarydatabase", "cicd", "k8smaster1"]
 }
+
+variable "dev_env" {}
