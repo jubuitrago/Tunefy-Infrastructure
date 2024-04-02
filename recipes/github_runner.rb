@@ -22,14 +22,10 @@ bash 'install_and_configure_github_runner' do
     mkdir actions-runner && cd actions-runner
     curl -o actions-runner-linux-x64-2.314.1.tar.gz -L https://github.com/actions/runner/releases/download/v2.314.1/actions-runner-linux-x64-2.314.1.tar.gz
     tar xzf ./actions-runner-linux-x64-2.314.1.tar.gz
+
     pwd
-    ./config.sh \
-    --name Runner \
-    --token ${RUNNER_TOKEN} \
-    -- labels my-runner \
-    --url https://github.com/jubuitrago/Tunefy \
-    --work "/work" \
-    --unattended
+
+    ./config.sh --name Runner --token ${RUNNER_TOKEN} -- labels my-runner --url https://github.com/jubuitrago/Tunefy --work "/work" --unattended
 
     sudo ./svc.sh install
     sudo ./svc.sh start
