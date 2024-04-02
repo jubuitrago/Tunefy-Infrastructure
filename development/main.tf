@@ -80,3 +80,27 @@ module "scripts" {
   cicd_instances_ip_list              = module.EC2.cicd_instances_ip_list
   k8s_master_instances_ip_list        = module.EC2.k8s_master_instances_ip_list
 }
+
+module "security_group_rule" {
+  source = "../modules/instances/security_group_rule"
+
+  internet_facing_load_balancer_exists  = module.load_balancer.internet_facing_load_balancer_exists
+  
+  tunefy_nginx_SG_id                    = module.security_group.tunefy_nginx_SG_id
+  tunefy_bastion_SG_id                  = module.security_group.tunefy_bastion_SG_id
+  tunefy_frontend_SG_id                 = module.security_group.tunefy_frontend_SG_id
+  tunefy_backend_SG_id                  = module.security_group.tunefy_backend_SG_id
+  tunefy_primary_database_SG_id         = module.security_group.tunefy_primary_database_SG_id
+  tunefy_replica_database_SG_id         = module.security_group.tunefy_replica_database_SG_id
+  tunefy_k8s_master_SG_id               = module.security_group.tunefy_k8s_master_SG_id
+  tunefy_cicd_SG_id                     = module.security_group.tunefy_cicd_SG_id
+  tunefy_internet_facing_ALB_SG_id      = module.security_group.tunefy_internet_facing_ALB_SG_id
+  SG_ids_list                           = module.security_group.SG_ids_list
+
+  bastion_instance_ip_list              = module.EC2.bastion_instance_ip_list
+  nginx_instances_ip_list                = module.EC2.nginx_instances_ip_list
+  chef_nodes_ip_list                    = module.EC2.chef_nodes_ip_list
+  k8s_nodes_ip_list                     = module.EC2.k8s_nodes_ip_list
+  k8s_master_ip_list                    = module.EC2.k8s_master_ip_list
+  replica_database_instances_ip_list    = module.EC2.replica_database_instances_ip_list
+}
