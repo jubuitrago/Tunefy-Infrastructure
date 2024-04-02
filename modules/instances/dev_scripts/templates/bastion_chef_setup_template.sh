@@ -34,8 +34,6 @@ sudo sed -i "s/FRONTEND_IP/${FRONTEND_1_IP}:30000/g" nginx1.rb
 sudo sed -i "s/INSTANCE_PRIVATE_IP/${K8S_MASTER_1_IP}/g" k8s_master_setup.rb
 sudo sed -i "s/PRIMARY_DATABASE_IPX/${PRIMARY_DATABASE_IP}/g" k8s_master_start.rb
 sudo sed -i "s/PUBLIC_LB_URLX/${BACKEND_1_IP}/g" k8s_master_start.rb
-sudo sed -i "s/REPLICA_DATABASE_IPX/${REPLICA_DATABASE_IP}/g" primary_database.rb
-sudo sed -i "s/PRIMARY_DATABASE_IPX/${PRIMARY_DATABASE_IP}/g" replica_database.rb
 
 sudo knife cookbook upload tunefy_cookbook
 
@@ -43,7 +41,6 @@ echo "${NGINX_1_IP} nginx1" | sudo tee -a /etc/hosts
 echo "${FRONTEND_1_IP} frontend1" | sudo tee -a /etc/hosts
 echo "${BACKEND_1_IP} backend1" | sudo tee -a /etc/hosts
 echo "${K8S_MASTER_1_IP} k8smaster1" | sudo tee -a /etc/hosts
-echo "${K8S_MASTER_2_IP} k8smaster2" | sudo tee -a /etc/hosts
 echo "${PRIMARY_DATABASE_IP} primarydatabase" | sudo tee -a /etc/hosts
 
 sudo knife bootstrap ${NGINX_1_IP}             -y -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N nginx_node_1            --run-list 'recipe[tunefy_cookbook::nginx1]'
