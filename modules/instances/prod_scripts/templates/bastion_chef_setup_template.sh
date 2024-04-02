@@ -90,7 +90,7 @@ JOIN_COMMAND=$(sudo knife ssh 'name:k8s_master_node_1' 'sudo kubeadm token creat
 sudo knife ssh "name:backend_node_2" "sudo $JOIN_COMMAND" -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
 
 
-
+sudo knife ssh 'name:k8s_master_node_1' 'sudo kubectl get nodes' -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
 
 knife node run_list remove k8s_master_node_1 'recipe[tunefy_cookbook::k8s_master_setup]'
 sudo knife ssh 'name:k8s_master_node_1' "sudo usermod -aG docker $USER && sudo reboot" -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
@@ -98,5 +98,6 @@ sleep 90
 sudo knife ssh 'name:k8s_master_node_1' 'docker login -u username -p password' -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
 
 #Add start recipe to run-list
+sudo knife ssh 'name:k8s_master_node_1' 'sudo kubectl get nodes' -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
 sudo knife node run_list add k8s_master_node_1 'recipe[tunefy_cookbook::k8s_master_start]'
 sudo knife ssh 'name:k8s_master_node_1' 'sudo chef-client' -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
