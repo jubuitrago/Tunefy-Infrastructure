@@ -27,6 +27,7 @@ sudo wget https://raw.githubusercontent.com/jubuitrago/Tunefy-Infrastructure/mai
 sudo wget https://raw.githubusercontent.com/jubuitrago/Tunefy-Infrastructure/main/recipes/k8s_master_start.rb
 sudo wget https://raw.githubusercontent.com/jubuitrago/Tunefy-Infrastructure/main/recipes/primary_database.rb
 sudo wget https://raw.githubusercontent.com/jubuitrago/Tunefy-Infrastructure/main/recipes/replica_database.rb
+sudo wget https://raw.githubusercontent.com/jubuitrago/Tunefy-Infrastructure/main/recipes/github_runner.rb
 
 sudo cp nginx.rb nginx1.rb
 sudo cp nginx.rb nginx2.rb
@@ -34,6 +35,7 @@ sudo sed -i "s/FRONTEND_IP/${FRONTEND_1_IP}:30000/g" nginx1.rb
 sudo sed -i "s/INSTANCE_PRIVATE_IP/${K8S_MASTER_1_IP}/g" k8s_master_setup.rb
 sudo sed -i "s/PRIMARY_DATABASE_IPX/${PRIMARY_DATABASE_IP}/g" k8s_master_start.rb
 sudo sed -i "s/PUBLIC_LB_URLX/${BACKEND_1_IP}/g" k8s_master_start.rb
+sudo sed -i "s/GITHUB_PERSONAL_TOKEN//g" github_runner.rb
 
 sudo knife cookbook upload tunefy_cookbook
 
@@ -48,7 +50,7 @@ sudo knife bootstrap ${K8S_MASTER_1_IP}        -y -U ubuntu -p 22 --sudo -i /hom
 sudo knife bootstrap ${FRONTEND_1_IP}          -y -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N frontend_node_1         --run-list 'recipe[tunefy_cookbook::k8s_nodes_setup]'
 sudo knife bootstrap ${BACKEND_1_IP}           -y -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N backend_node_1          --run-list 'recipe[tunefy_cookbook::k8s_nodes_setup]'
 sudo knife bootstrap ${PRIMARY_DATABASE_IP}    -y -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N primary_database_node   --run-list 'recipe[tunefy_cookbook::primary_database]'
-#sudo knife bootstrap ${CICD_IP}                -y -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N cicd_node
+sudo knife bootstrap ${CICD_IP}                -y -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N cicd_node               --run-list 'recipe[tunefy_cookbook::github_runner]'
 
 #Join frontend_node_1
 JOIN_COMMAND=$(sudo knife ssh 'name:k8s_master_node_1' 'sudo kubeadm token create --print-join-command' -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem | grep -o 'kubeadm.*' | tr -d '\r')
