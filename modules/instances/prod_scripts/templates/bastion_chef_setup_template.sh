@@ -119,6 +119,7 @@ sudo knife ssh "name:backend_node_1" "sudo $JOIN_COMMAND" -x ubuntu -i /home/ubu
 JOIN_COMMAND=$(sudo knife ssh 'name:k8s_master_node_1' 'sudo kubeadm token create --print-join-command' -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem | grep -o 'kubeadm.*' | tr -d '\r')
 sudo knife ssh "name:backend_node_2" "sudo $JOIN_COMMAND" -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
 
+sleep 10
 
 sudo knife ssh 'name:k8s_master_node_1' 'sudo kubectl get nodes' -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
 
