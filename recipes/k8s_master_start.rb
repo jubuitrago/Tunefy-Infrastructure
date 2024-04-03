@@ -9,6 +9,7 @@ bash 'start_kubernetes_cluster' do
         sudo wget https://raw.githubusercontent.com/jubuitrago/Tunefy-infrastructure/main/kubernetes_scripts/backend.yaml
         sudo wget https://raw.githubusercontent.com/jubuitrago/Tunefy-infrastructure/main/kubernetes_scripts/frontend.yaml
         sudo sed -i 's/PRIMARY_DATABASE_IP/PRIMARY_DATABASE_IPX/g' app_configs.yaml
+        sudo sed -i 's/PUBLIC_LB_URL/PUBLIC_LB_URLX/g' app_configs.yaml
         sudo sed -i 's/replicas: 2/REPLICAS_NUMBER/g' backend.yaml
         sudo sed -i 's/replicas: 2/REPLICAS_NUMBER/g' frontend.yaml
 
