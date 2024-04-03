@@ -72,3 +72,6 @@ sudo knife ssh 'name:k8s_master_node_1' 'docker login -u username -p password' -
 #Add start recipe to run-list
 sudo knife node run_list add k8s_master_node_1 'recipe[tunefy_cookbook::k8s_master_start]'
 sudo knife ssh 'name:k8s_master_node_1' 'sudo chef-client' -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
+
+sudo knife ssh 'name:k8s_master_node_1' 'sudo kubectl get node' -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
+sudo knife ssh 'name:k8s_master_node_1' 'sudo kubectl get pods -A' -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
