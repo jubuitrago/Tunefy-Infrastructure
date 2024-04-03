@@ -54,20 +54,20 @@ module "security_group" {
 module "EC2" {
   source = "../modules/instances/EC2"
 
-  dev_env                         = var.dev_env
+  dev_env                           = var.dev_env
 
-  subnet_ids_list_map             = module.subnet.subnet_ids_list_map
-  tunefy_nginx_SG_id              = module.security_group.tunefy_nginx_SG_id
-  tunefy_bastion_SG_id            = module.security_group.tunefy_bastion_SG_id
-  tunefy_frontend_SG_id           = module.security_group.tunefy_frontend_SG_id
-  tunefy_backend_SG_id            = module.security_group.tunefy_backend_SG_id
-  tunefy_primary_database_SG_id   = module.security_group.tunefy_primary_database_SG_id
-  tunefy_replica_database_SG_id   = module.security_group.tunefy_replica_database_SG_id
-  tunefy_k8s_master_SG_id         = module.security_group.tunefy_k8s_master_SG_id
-  tunefy_cicd_SG_id               = module.security_group.tunefy_cicd_SG_id
+  subnet_ids_list_map               = module.subnet.subnet_ids_list_map
+  tunefy_nginx_SG_id                = module.security_group.tunefy_nginx_SG_id
+  tunefy_bastion_SG_id              = module.security_group.tunefy_bastion_SG_id
+  tunefy_frontend_SG_id             = module.security_group.tunefy_frontend_SG_id
+  tunefy_backend_SG_id              = module.security_group.tunefy_backend_SG_id
+  tunefy_primary_database_SG_id     = module.security_group.tunefy_primary_database_SG_id
+  tunefy_replica_database_SG_id     = module.security_group.tunefy_replica_database_SG_id
+  tunefy_k8s_master_SG_id           = module.security_group.tunefy_k8s_master_SG_id
+  tunefy_cicd_SG_id                 = module.security_group.tunefy_cicd_SG_id
 
-  bastion_provision_script        = module.scripts.bastion_provision_script
-  chef_nodes_provision_scripts    = module.scripts.chef_nodes_provision_scripts
+  bastion_provision_script          = module.scripts.bastion_provision_script
+  chef_nodes_provision_scripts      = module.scripts.chef_nodes_provision_scripts
 }
 
 module "scripts" {

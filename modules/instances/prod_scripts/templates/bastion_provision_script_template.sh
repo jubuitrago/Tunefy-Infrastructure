@@ -99,6 +99,3 @@ cookbook_path ["#{current_dir}/../cookbooks"]' > knife.rb
 
 sudo knife ssl fetch
 
-wget https://raw.githubusercontent.com/jubuitrago/Tunefy-Infrastructure/main/keys/tunefy-global-key.pem
-chmod 400 tunefy-global-key.pem
-
