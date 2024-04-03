@@ -35,6 +35,7 @@ sudo sed -i "s/FRONTEND_IP/${FRONTEND_1_IP}:30000/g" nginx1.rb
 sudo sed -i "s/INSTANCE_PRIVATE_IP/${K8S_MASTER_1_IP}/g" k8s_master_setup.rb
 sudo sed -i "s/PRIMARY_DATABASE_IPX/${PRIMARY_DATABASE_IP}/g" k8s_master_start.rb
 sudo sed -i "s/PUBLIC_LB_URLX/${BACKEND_1_IP}/g" k8s_master_start.rb
+sudo sed -i "s/REPLICAS_NUMBER/${REPLICAS_NUMBER}/g" k8s_master_start.rb
 sudo sed -i "s/GITHUB_PERSONAL_TOKEN//g" github_runner.rb
 sudo sed -i "s/RUNNER_NAME/${RUNNER_NAME}/g" github_runner.rb
 sudo sed -i "s/RUNNER_LABEL/${RUNNER_NAME}/g" github_runner.rb

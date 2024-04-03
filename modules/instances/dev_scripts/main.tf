@@ -15,6 +15,7 @@ resource "local_file" "bastion_chef_setup" {
     CICD_IP               = var.cicd_instances_ip_list[0]
     K8S_MASTER_1_IP       = var.k8s_master_instances_ip_list[0]
     RUNNER_NAME           = var.dev_env ? "dev-runner" : "production-runner"
+    REPLICAS_NUMBER       = var.dev_env ? "replicas: 1" : "replicas: 2"
   })
 }
 
