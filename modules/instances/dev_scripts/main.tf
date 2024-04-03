@@ -9,6 +9,7 @@ resource "local_file" "bastion_chef_setup" {
   filename = "${path.module}/setup_scripts/bastion_chef_setup.sh"
   content = templatefile("${path.module}/templates/bastion_chef_setup_template.sh", {
     NGINX_1_IP            = var.nginx_instances_ip_list[0]
+    NGINX_1_IP_PUBLIC     = var.nginx_instance_ip_public
     FRONTEND_1_IP         = var.frontend_instances_ip_list[0]
     BACKEND_1_IP          = var.backend_instances_ip_list[0]
     PRIMARY_DATABASE_IP   = var.primary_database_instances_ip_list[0]

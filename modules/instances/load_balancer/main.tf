@@ -7,8 +7,9 @@ resource "aws_lb" "internet_facing" {
   subnets = [for subnet in var.public_subnets : subnet.id if subnet.tags["Name"] == "public-subnet-nginx-1a" || subnet.tags["Name"] == "public-subnet-nginx-1b"]
 }
 
-resource "aws_lb_target_group" "nginx_tg" {
-  name = "nginx-iac-TG"
+#TARGET GROUP 1
+resource "aws_lb_target_group" "nginx_tg_1" {
+  name = "nginx-iac-TG-1"
   port = "80"
   protocol = "HTTP"
   vpc_id = var.vpc_id
@@ -31,17 +32,55 @@ resource "aws_lb_listener" "internet_facing" {
   protocol = "HTTP"
   default_action {
     type = "forward"
-    target_group_arn = aws_lb_target_group.nginx_tg.arn
+    target_group_arn = aws_lb_target_group.nginx_tg_1.arn
   }
 }
 
 resource "aws_lb_target_group_attachment" "nginx_instance" {
   count = length(var.nginx_instances_id_list)
 
-  target_group_arn = aws_lb_target_group.nginx_tg.arn
+  target_group_arn = aws_lb_target_group.nginx_tg_1.arn
   target_id = var.nginx_instances_id_list[count.index]
   port = 80
 }
+
+#TARGET GROUP 2
+resource "aws_lb_target_group" "nginx_tg_2" {
+  name = "nginx-iac-TG-2"
+  port = "81"
+  protocol = "HTTP"
+  vpc_id = var.vpc_id
+  target_type = "instance"
+
+  health_check {
+    path                    = "/"
+    port                    = "81"
+    protocol                = "HTTP"
+    interval                = 15
+    timeout                 = 5
+    healthy_threshold       = 2
+    unhealthy_threshold     = 2
+  }
+}
+
+resource "aws_lb_listener" "internet_facing" {
+  load_balancer_arn = aws_lb.internet_facing.arn
+  port = "81"
+  protocol = "HTTP"
+  default_action {
+    type = "forward"
+    target_group_arn = aws_lb_target_group.nginx_tg_2.arn
+  }
+}
+
+resource "aws_lb_target_group_attachment" "nginx_instance" {
+  count = length(var.nginx_instances_id_list)
+
+  target_group_arn = aws_lb_target_group.nginx_tg_2.arn
+  target_id = var.nginx_instances_id_list[count.index]
+  port = 81
+}
+
 
 
 #BACKEND LOAD BALANCER

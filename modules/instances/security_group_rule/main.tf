@@ -1,9 +1,9 @@
 #TUNEFY-NGINX-SG RULES
-resource "aws_vpc_security_group_ingress_rule" "allow_HTTP80_from_public_alb" {
+resource "aws_vpc_security_group_ingress_rule" "allow_HTTP80_81_from_public_alb" {
     security_group_id = var.tunefy_nginx_SG_id
     cidr_ipv4   = var.dev_env ? "0.0.0.0/0" : "10.0.0.0/27"
     from_port   = 80
-    to_port     = 80
+    to_port     = 81
     ip_protocol = "tcp"
 }
 
@@ -78,6 +78,14 @@ resource "aws_vpc_security_group_ingress_rule" "frontend_allow_TCP30000_from_ngi
     cidr_ipv4           = format("%s/32", var.nginx_instances_ip_list[count.index])
     from_port           = 30000
     to_port             = 30000
+    ip_protocol         = "tcp"
+}
+
+resource "aws_vpc_security_group_ingress_rule" "backend_allow_TCP30001_from_nginx_instances" {
+    security_group_id   = var.tunefy_backend_SG_id
+    cidr_ipv4           = var.dev_env ? "10.0.0.0/28" : "10.0.0.48/27"
+    from_port           = 30001
+    to_port             = 30001
     ip_protocol         = "tcp"
 }
 

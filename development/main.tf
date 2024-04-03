@@ -82,6 +82,7 @@ module "scripts" {
   replica_database_instances_ip_list  = module.EC2.replica_database_instances_ip_list
   cicd_instances_ip_list              = module.EC2.cicd_instances_ip_list
   k8s_master_instances_ip_list        = module.EC2.k8s_master_instances_ip_list
+  nginx_instance_ip_public            = module.EC2.nginx_instance_ip_public
 }
 
 module "security_group_rule" {

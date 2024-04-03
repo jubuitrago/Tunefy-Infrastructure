@@ -19,3 +19,5 @@ variable "chef_nodes_names_list" {
 }
 
 variable "dev_env" {}
+
+variable "nginx_instance_ip_public" {}

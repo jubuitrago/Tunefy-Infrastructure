@@ -15,6 +15,10 @@ output "nginx_instances_ip_list" {
   value = [for instance in aws_instance.nginx : instance.private_ip]
 }
 
+output "nginx_instance_ip_public" {
+  value = aws_instance.nginx[0].public_ip
+}
+
 output "frontend_instances_ip_list" {
   value = [for instance in aws_instance.frontend : instance.private_ip]
 }
