@@ -55,19 +55,20 @@ resource "aws_lb" "backend" {
 
 resource "aws_lb_target_group" "backend_tg" {
   name = "backend-iac-TG"
-  port = "3001"
+  port = "30001"
   protocol = "HTTP"
   vpc_id = var.vpc_id
   target_type = "instance"
 
   health_check {
     path                    = "/"
-    port                    = "3001"
+    port                    = "30001"
     protocol                = "HTTP"
     interval                = 15
     timeout                 = 5
     healthy_threshold       = 2
     unhealthy_threshold     = 2
+    matcher                 = "404"
   }
 }
 
@@ -86,5 +87,5 @@ resource "aws_lb_target_group_attachment" "backend_instance" {
 
   target_group_arn = aws_lb_target_group.backend_tg.arn
   target_id = var.backend_instances_id_list[count.index]
-  port = 80
+  port = 30001
 }
