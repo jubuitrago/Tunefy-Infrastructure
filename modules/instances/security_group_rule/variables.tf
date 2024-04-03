@@ -31,3 +31,5 @@ variable "chef_nodes_ip_list" {}
 variable "k8s_nodes_ip_list" {}
 
 variable "k8s_master_ip_list" {}
+
+variable "backend_instances_ip_list" {}

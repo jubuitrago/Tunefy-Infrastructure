@@ -102,7 +102,8 @@ module "security_group_rule" {
   SG_ids_list                           = module.security_group.SG_ids_list
 
   bastion_instance_ip_list              = module.EC2.bastion_instance_ip_list
-  nginx_instances_ip_list                = module.EC2.nginx_instances_ip_list
+  nginx_instances_ip_list               = module.EC2.nginx_instances_ip_list
+  backend_instances_ip_list             = module.EC2.backend_instances_ip_list
   chef_nodes_ip_list                    = module.EC2.chef_nodes_ip_list
   k8s_nodes_ip_list                     = module.EC2.k8s_nodes_ip_list
   k8s_master_ip_list                    = module.EC2.k8s_master_ip_list

@@ -106,3 +106,13 @@ resource "aws_vpc_security_group_ingress_rule" "allow_TCP5432_from_replica_datab
     to_port             = 5432
     ip_protocol         = "tcp"
 }
+
+resource "aws_vpc_security_group_ingress_rule" "allow_TCP5432_from_backend_instances" {
+    count = length(var.backend_instances_ip_list)
+
+    security_group_id   = var.tunefy_primary_database_SG_id
+    cidr_ipv4           = format("%s/32", var.backend_instances_ip_list[count.index])
+    from_port           = 5432
+    to_port             = 5432
+    ip_protocol         = "tcp"
+}
