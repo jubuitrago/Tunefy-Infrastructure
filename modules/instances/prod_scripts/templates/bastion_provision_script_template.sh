@@ -1,4 +1,6 @@
 #!/bin/bash
+sudo hostnamectl set-hostname chef-server
+
 #Installation of prometheus
 wget https://github.com/prometheus/prometheus/releases/download/v2.37.6/prometheus-2.37.6.linux-amd64.tar.gz
 tar xvfz prometheus-*.tar.gz
@@ -49,7 +51,6 @@ sudo systemctl enable grafana-server.service
 sudo systemctl start grafana-server
 
 #Installation of chef-server and chef-workstation
-sudo hostnamectl set-hostname chef-server
 echo "127.0.0.1 chef-server" | sudo tee -a /etc/hosts
 sudo apt update > /dev/null 2>&1
 sudo apt -y install curl wget bash-completion > /dev/null 2>&1
