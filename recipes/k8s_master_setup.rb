@@ -52,7 +52,7 @@ end
 
 bash 'initialize_kubernetes_cluster' do
   code <<-EOH
-    sudo kubeadm init --apiserver-advertise-address=INSTANCE_PRIVATE_IP --pod-network-cidr=10.244.0.0/16 --ignore-preflight-errors=all
+    sudo kubeadm init --apiserver-advertise-address=INSTANCE_PRIVATE_IP --pod-network-cidr=192.168.0.0/16 --ignore-preflight-errors=all
     mkdir -p $HOME/.kube
     sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
     sudo chown $(id -u):$(id -g) $HOME/.kube/config

@@ -2,7 +2,13 @@ bash 'start_kubernetes_cluster' do
     code <<-EOH
         cd /home/ubuntu
         pwd
-        sudo kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+        #sudo kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+        kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.3/manifests/tigera-operator.yaml
+        kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.3/manifests/custom-resources.yaml
+
+        sleep 30
+        sudo kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+        sudo kubectl taint nodes --all node-role.kubernetes.io/master-
 
         sudo wget https://raw.githubusercontent.com/jubuitrago/Tunefy-infrastructure/main/kubernetes_scripts/app_configs.yaml
         sudo wget https://raw.githubusercontent.com/jubuitrago/Tunefy-infrastructure/main/kubernetes_scripts/app_secrets.yaml
