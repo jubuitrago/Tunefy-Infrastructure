@@ -11,7 +11,7 @@ bash 'install_and_configure_primary_database' do
         echo "host replication replicator REPLICA_DATABASE_IPX/32 trust" | sudo tee -a /etc/postgresql/16/main/pg_hba.conf > /dev/null
         sudo -u postgres psql -c "CREATE DATABASE tunefy_database;"
         sudo -u postgres createuser --replication -e replicator
-        sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'POSTGRES_PASSWORD_VALUEX';"
+        sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD '1231';"
 
 
         wget https://raw.githubusercontent.com/jubuitrago/Tunefy/main/database/scripts/init.sql -P /tmp/
