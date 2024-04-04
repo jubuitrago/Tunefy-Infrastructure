@@ -69,6 +69,7 @@ echo "${FRONTEND_1_IP} frontend1" | sudo tee -a /etc/hosts
 echo "${BACKEND_1_IP} backend1" | sudo tee -a /etc/hosts
 echo "${K8S_MASTER_1_IP} k8smaster1" | sudo tee -a /etc/hosts
 echo "${PRIMARY_DATABASE_IP} primarydatabase" | sudo tee -a /etc/hosts
+echo "${CICD_IP} cicd" | sudo tee -a /etc/hosts
 
 #bootstrap
 sudo knife bootstrap ${NGINX_1_IP}             -y -U ubuntu -p 22 --sudo -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem -N nginx_node_1            --run-list 'recipe[tunefy_cookbook::nginx1]'
@@ -90,7 +91,7 @@ sleep 10
 
 knife node run_list remove k8s_master_node_1 'recipe[tunefy_cookbook::k8s_master_setup]'
 sudo knife ssh 'name:k8s_master_node_1' "sudo usermod -aG docker ubuntu && sudo reboot" -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
-sudo knife ssh 'name:cicd_node' "sudo reboot" -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
+sudo knife ssh 'name:cicd_node' 'sudo usermod -aG docker github && sudo reboot' -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
 sleep 90
 sudo knife ssh 'name:k8s_master_node_1' "docker login -u $(aws ssm get-parameter --name tunefy-docker-username --with-decryption | jq -r '.Parameter.Value') -p $(aws ssm get-parameter --name tunefy-docker-password --with-decryption | jq -r '.Parameter.Value')" -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
 
