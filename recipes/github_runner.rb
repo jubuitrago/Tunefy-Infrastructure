@@ -17,6 +17,8 @@ bash 'install_and_configure_github_runner' do
     useradd -m github
     usermod -aG sudo github
     echo "%sudo ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+    sudo mkdir /work
+    sudo chown -R github:github /work
     sudo su github
     cd /home/github
     mkdir actions-runner && cd actions-runner
