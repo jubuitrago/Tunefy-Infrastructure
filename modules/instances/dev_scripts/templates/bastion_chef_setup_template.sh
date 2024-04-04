@@ -90,6 +90,7 @@ sleep 10
 
 knife node run_list remove k8s_master_node_1 'recipe[tunefy_cookbook::k8s_master_setup]'
 sudo knife ssh 'name:k8s_master_node_1' "sudo usermod -aG docker ubuntu && sudo reboot" -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
+sudo knife ssh 'name:cicd_node' "sudo reboot" -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
 sleep 90
 sudo knife ssh 'name:k8s_master_node_1' "docker login -u $(aws ssm get-parameter --name tunefy-docker-username --with-decryption | jq -r '.Parameter.Value') -p $(aws ssm get-parameter --name tunefy-docker-password --with-decryption | jq -r '.Parameter.Value')" -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
 

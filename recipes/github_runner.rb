@@ -37,6 +37,8 @@ bash 'install_and_configure_github_runner' do
     sudo ./svc.sh install
     sudo ./svc.sh start
 
+    sudo usermod -aG docker github
+
     EOH
   end
   
