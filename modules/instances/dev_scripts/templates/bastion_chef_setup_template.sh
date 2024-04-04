@@ -56,6 +56,7 @@ sudo sed -i "s/AI21_TOKEN_VALUEX/$(aws ssm get-parameter --name tunefy-ai21-toke
 sudo sed -i "s/REACT_APP_GOOGLE_KEY_VALUEX/$(aws ssm get-parameter --name tunefy-react-app-google-key --with-decryption | jq -r '.Parameter.Value')/g" k8s_master_start.rb
 
 sudo sed -i "s/REPLICA_DATABASE_IPX/1.1.1.1/g" primary_database.rb
+sudo sed -i "s/POSTGRES_PASSWORD_VALUEX/$(aws ssm get-parameter --name tunefy-postgres-password --with-decryption | jq -r '.Parameter.Value')/g" primary_database.rb
 sudo sed -i "s/GITHUB_PERSONAL_TOKEN/$(aws ssm get-parameter --name tunefy-github-personal-token --with-decryption | jq -r '.Parameter.Value')/g" github_runner.rb
 sudo sed -i "s/RUNNER_NAME/${RUNNER_NAME}/g" github_runner.rb
 sudo sed -i "s/RUNNER_LABEL/${RUNNER_NAME}/g" github_runner.rb
