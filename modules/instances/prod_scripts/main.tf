@@ -22,6 +22,7 @@ resource "local_file" "bastion_chef_setup" {
     PUBLIC_LB_URL         = var.internet_facing_load_balancer_url
     BACKEND_LB_URL        = var.backend_load_balancer_url
     RUNNER_NAME           = var.dev_env ? "dev-runner" : "production-runner"
+    REPLICAS_NUMBER       = var.dev_env ? "replicas: 1" : "replicas: 2"
   })
 }
 
