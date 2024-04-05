@@ -18,7 +18,9 @@ bash 'start_kubernetes_cluster' do
         sudo sed -i 's/AI21_TOKEN_VALUE/AI21_TOKEN_VALUEX/g' app_secrets.yaml
         sudo sed -i 's/REACT_APP_GOOGLE_KEY_VALUE/REACT_APP_GOOGLE_KEY_VALUEX/g' app_secrets.yaml
         sudo sed -i 's/replicas: 2/REPLICAS_NUMBER/g' backend.yaml
-        sudo sed -i 's/replicas: 2/REPLICAS_NUMBER/g' frontend.yaml
+        sudo sed -i 's/replicas: 2/REPLICAS_NUMBER/g' frontend.yaml 
+        sudo sed -i 's/FRONTEND-VERSION/FRONTEND-VERSIONX/g' frontend.yaml
+        sudo sed -i 's/BACKEND-VERSION/BACKEND-VERSIONX/g' backend.yaml
 
         sudo kubectl label nodes frontend1 app=frontend1
         sudo kubectl label nodes frontend2 app=frontend2
