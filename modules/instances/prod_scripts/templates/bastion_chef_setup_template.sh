@@ -61,8 +61,8 @@ sudo cp nginx.rb nginx1.rb
 sudo cp nginx.rb nginx2.rb
 sudo sed -i "s/FRONTEND_IP/${FRONTEND_1_IP}:30000/g" nginx1.rb
 sudo sed -i "s/FRONTEND_IP/${FRONTEND_2_IP}:30000/g" nginx2.rb
-sudo sed -i "s/BACKEND_IP/${BACKEND_LB_URL}:80/g" nginx1.rb
-sudo sed -i "s/BACKEND_IP/${BACKEND_LB_URL}:80/g" nginx2.rb
+sudo sed -i "s/BACKEND_IP/${BACKEND_LB_URL}/g" nginx1.rb
+sudo sed -i "s/BACKEND_IP/${BACKEND_LB_URL}/g" nginx2.rb
 sudo sed -i "s/INSTANCE_PRIVATE_IP/${K8S_MASTER_1_IP}/g" k8s_master_setup.rb
 sudo sed -i "s/PRIMARY_DATABASE_IPX/${PRIMARY_DATABASE_IP}/g" k8s_master_start.rb
 sudo sed -i "s/PUBLIC_LB_URLX/${PUBLIC_LB_URL}:81/g" k8s_master_start.rb
