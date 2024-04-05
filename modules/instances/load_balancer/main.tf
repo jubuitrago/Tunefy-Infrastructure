@@ -26,7 +26,7 @@ resource "aws_lb_target_group" "nginx_tg_1" {
   }
 }
 
-resource "aws_lb_listener" "internet_facing" {
+resource "aws_lb_listener" "internet_facing_1" {
   load_balancer_arn = aws_lb.internet_facing.arn
   port = "80"
   protocol = "HTTP"
@@ -36,7 +36,7 @@ resource "aws_lb_listener" "internet_facing" {
   }
 }
 
-resource "aws_lb_target_group_attachment" "nginx_instance" {
+resource "aws_lb_target_group_attachment" "nginx_instance_1" {
   count = length(var.nginx_instances_id_list)
 
   target_group_arn = aws_lb_target_group.nginx_tg_1.arn
@@ -63,7 +63,7 @@ resource "aws_lb_target_group" "nginx_tg_2" {
   }
 }
 
-resource "aws_lb_listener" "internet_facing" {
+resource "aws_lb_listener" "internet_facing_2" {
   load_balancer_arn = aws_lb.internet_facing.arn
   port = "81"
   protocol = "HTTP"
@@ -73,7 +73,7 @@ resource "aws_lb_listener" "internet_facing" {
   }
 }
 
-resource "aws_lb_target_group_attachment" "nginx_instance" {
+resource "aws_lb_target_group_attachment" "nginx_instance_2" {
   count = length(var.nginx_instances_id_list)
 
   target_group_arn = aws_lb_target_group.nginx_tg_2.arn

@@ -81,9 +81,17 @@ resource "aws_vpc_security_group_ingress_rule" "frontend_allow_TCP30000_from_ngi
     ip_protocol         = "tcp"
 }
 
-resource "aws_vpc_security_group_ingress_rule" "backend_allow_TCP30001_from_nginx_instances" {
+resource "aws_vpc_security_group_ingress_rule" "backend_allow_TCP30001_from_nginx_instances_1" {
     security_group_id   = var.tunefy_backend_SG_id
-    cidr_ipv4           = var.dev_env ? "10.0.0.0/28" : "10.0.0.48/27"
+    cidr_ipv4           = var.dev_env ? "10.0.0.0/28" : "10.0.0.48/28"
+    from_port           = 30001
+    to_port             = 30001
+    ip_protocol         = "tcp"
+}
+
+resource "aws_vpc_security_group_ingress_rule" "backend_allow_TCP30001_from_nginx_instances_2" {
+    security_group_id   = var.tunefy_backend_SG_id
+    cidr_ipv4           = var.dev_env ? "10.0.0.0/28" : "10.0.0.64/28"
     from_port           = 30001
     to_port             = 30001
     ip_protocol         = "tcp"
