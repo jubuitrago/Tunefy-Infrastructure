@@ -102,6 +102,17 @@ resource "aws_vpc_security_group_ingress_rule" "allow_TCP80_from_internet" {
     security_group_id   = var.tunefy_internet_facing_ALB_SG_id
     cidr_ipv4           = "0.0.0.0/0"
     from_port           = 80
+    to_port             = 81
+    ip_protocol         = "tcp"
+}
+
+#BACKEND LOAD BALANCER RULES
+resource "aws_vpc_security_group_ingress_rule" "allow_TCP80_from_nginx_instances" {
+    count = length(var.nginx_instances_ip_list)
+
+    security_group_id   = var.tunefy_backend_ALB_SG_id
+    cidr_ipv4           = format("%s/32", var.nginx_instances_ip_list[count.index])
+    from_port           = 80
     to_port             = 80
     ip_protocol         = "tcp"
 }

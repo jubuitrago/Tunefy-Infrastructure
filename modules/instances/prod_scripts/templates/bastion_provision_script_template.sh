@@ -50,6 +50,13 @@ sudo systemctl daemon-reload
 sudo systemctl enable grafana-server.service
 sudo systemctl start grafana-server
 
+#installation of aws-cli
+cd /home/ubuntu
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+sudo apt install -y unzip jq
+unzip awscliv2.zip
+sudo ./aws/install
+
 #Installation of chef-server and chef-workstation
 echo "127.0.0.1 chef-server" | sudo tee -a /etc/hosts
 sudo apt update > /dev/null 2>&1
@@ -99,4 +106,5 @@ chef_server_url "https://chef-server/organizations/tunefy"
 cookbook_path ["#{current_dir}/../cookbooks"]' > knife.rb
 
 sudo knife ssl fetch
+
 

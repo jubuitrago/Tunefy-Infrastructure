@@ -137,3 +137,17 @@ resource "aws_security_group" "tunefy-internet-facing-ALB-SG" {
         cidr_blocks      = ["0.0.0.0/0"]
     }
 }
+
+resource "aws_security_group" "tunefy-backend-ALB-SG" {
+    name = "tunefy-backend-ALB-SG"
+    vpc_id = var.vpc_id
+    tags = {
+        Name = "tunefy-backend-ALB-SG"
+    }
+    egress {
+        protocol    = "-1"
+        from_port   = "0"
+        to_port     = "0"
+        cidr_blocks      = ["0.0.0.0/0"]
+    }
+}

@@ -5,3 +5,7 @@ output "internet_facing_load_balancer_exists" {
 output "internet_facing_load_balancer_url" {
   value = aws_lb.internet_facing.dns_name
 }
+
+output "backend_load_balancer_url" {
+  value = aws_lb.backend.dns_name
+}

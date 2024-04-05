@@ -34,6 +34,10 @@ output "tunefy_internet_facing_ALB_SG_id" {
   value = aws_security_group.tunefy-internet-facing-ALB-SG.id
 }
 
+output "tunefy_backend_ALB_SG_id" {
+  value = aws_security_group.tunefy-backend-ALB-SG.id
+}
+
 output "SG_ids_list" {
   value = [
     aws_security_group.tunefy-nginx-SG.id,

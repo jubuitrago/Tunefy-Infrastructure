@@ -20,4 +20,6 @@ variable "chef_nodes_names_list" {
 
 variable "internet_facing_load_balancer_url" {}
 
+variable "backend_load_balancer_url" {}
+
 variable "dev_env" {}

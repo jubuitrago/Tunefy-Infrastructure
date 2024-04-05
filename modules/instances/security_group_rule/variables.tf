@@ -18,6 +18,8 @@ variable "tunefy_cicd_SG_id" {}
 
 variable "tunefy_internet_facing_ALB_SG_id" {}
 
+variable "tunefy_backend_ALB_SG_id" {}
+
 variable "bastion_instance_ip_list" {}
 
 variable "nginx_instances_ip_list" {}

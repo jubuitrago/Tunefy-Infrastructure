@@ -20,6 +20,7 @@ resource "local_file" "bastion_chef_setup" {
     K8S_MASTER_1_IP       = var.k8s_master_instances_ip_list[0]
     K8S_MASTER_2_IP       = var.k8s_master_instances_ip_list[1]
     PUBLIC_LB_URL         = var.internet_facing_load_balancer_url
+    BACKEND_LB_URL        = var.backend_load_balancer_url
     RUNNER_NAME           = var.dev_env ? "dev-runner" : "production-runner"
   })
 }
