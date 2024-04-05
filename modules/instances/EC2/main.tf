@@ -2,7 +2,7 @@ resource "aws_instance" "nginx" {
     count = length(var.subnet_ids_list_map["nginx"])
 
     subnet_id                   = var.subnet_ids_list_map["nginx"][count.index]
-    instance_type               = "t2.nano"
+    instance_type               = "t2.micro"
     ami                         = "ami-080e1f13689e07408"
     associate_public_ip_address = true
     key_name                    = "tunefy-global-key"
