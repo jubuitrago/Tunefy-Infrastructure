@@ -99,6 +99,7 @@ module "security_group_rule" {
   tunefy_k8s_master_SG_id               = module.security_group.tunefy_k8s_master_SG_id
   tunefy_cicd_SG_id                     = module.security_group.tunefy_cicd_SG_id
   tunefy_internet_facing_ALB_SG_id      = module.security_group.tunefy_internet_facing_ALB_SG_id
+  tunefy_backend_ALB_SG_id              = module.security_group.tunefy_backend_ALB_SG_id
   SG_ids_list                           = module.security_group.SG_ids_list
 
   bastion_instance_ip_list              = module.EC2.bastion_instance_ip_list

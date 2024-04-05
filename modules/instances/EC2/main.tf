@@ -22,7 +22,7 @@ resource "aws_instance" "frontend" {
     count = length(var.subnet_ids_list_map["frontend"])
 
     subnet_id                   = var.subnet_ids_list_map["frontend"][count.index]
-    instance_type               = "t2.small"
+    instance_type               = "t2.medium"
     ami                         = "ami-080e1f13689e07408"
     associate_public_ip_address = false
     key_name                    = "tunefy-global-key"
@@ -42,7 +42,7 @@ resource "aws_instance" "backend" {
     count = length(var.subnet_ids_list_map["backend"])
 
     subnet_id                   = var.subnet_ids_list_map["backend"][count.index]
-    instance_type               = "t2.small"
+    instance_type               = "t2.medium"
     ami                         = "ami-080e1f13689e07408"
     associate_public_ip_address = false
     key_name                    = "tunefy-global-key"

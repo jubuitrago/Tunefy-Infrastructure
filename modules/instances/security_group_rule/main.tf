@@ -91,7 +91,7 @@ resource "aws_vpc_security_group_ingress_rule" "backend_allow_TCP30001_from_ngin
 
 resource "aws_vpc_security_group_ingress_rule" "backend_allow_TCP30001_from_nginx_instances_2" {
     security_group_id   = var.tunefy_backend_SG_id
-    cidr_ipv4           = var.dev_env ? "10.0.0.0/28" : "10.0.0.64/28"
+    cidr_ipv4           = var.dev_env ? "1.0.0.0/32" : "10.0.0.64/28"
     from_port           = 30001
     to_port             = 30001
     ip_protocol         = "tcp"

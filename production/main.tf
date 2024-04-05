@@ -124,3 +124,10 @@ module "scripts" {
   internet_facing_load_balancer_url   = module.load_balancer.internet_facing_load_balancer_url
   backend_load_balancer_url           = module.load_balancer.backend_load_balancer_url
 }
+
+module "dns" {
+  source = "../modules/networking/dns"
+
+  internet_facing_load_balancer_url   = module.load_balancer.internet_facing_load_balancer_url
+  internet_facing_load_balancer_zone_id = module.load_balancer.internet_facing_load_balancer_zone_id
+}

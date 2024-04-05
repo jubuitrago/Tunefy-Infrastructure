@@ -111,3 +111,23 @@ sudo knife ssh 'name:k8s_master_node_1' 'sudo chef-client' -x ubuntu -i /home/ub
 
 sudo knife ssh 'name:k8s_master_node_1' 'sudo kubectl get node' -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
 sudo knife ssh 'name:k8s_master_node_1' 'sudo kubectl get pods -A' -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
+
+
+echo '
+#!/bin/bash
+
+while true; do
+    response=$(curl -sS -X GET \
+      -H "Authorization: token $(aws ssm get-parameter --name tunefy-github-personal-token --with-decryption | jq -r '.Parameter.Value')" \
+      -H "Accept: application/vnd.github.v3+json" \
+      "https://api.github.com/repos/jubuitrago/Tunefy/actions/variables/DEV_VERSION")
+    NEW_APP_VERSION=$(echo "$response" | jq -r '.value')
+
+    if [[ "$APP_VERSION" != "$NEW_APP_VERSION" ]]; then
+      sudo knife ssh 'name:k8s_master_node_1' "sudo sed -i 's/$APP_VERSION/$NEW_APP_VERSION/g' frontend.yaml && sudo kubectl apply -f frontend.yaml" -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
+      sudo knife ssh 'name:k8s_master_node_1' "sudo sed -i 's/$APP_VERSION/$NEW_APP_VERSION/g' backend.yaml && sudo kubectl apply -f backend.yaml" -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
+      APP_VERSION=$NEW_APP_VERSION
+    fi
+
+    sleep 300
+done' > lookfornewversions.sh
