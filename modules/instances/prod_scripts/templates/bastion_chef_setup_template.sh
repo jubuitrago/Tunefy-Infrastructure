@@ -56,6 +56,13 @@ sudo wget https://raw.githubusercontent.com/jubuitrago/Tunefy-Infrastructure/mai
 aws ssm get-parameter --name tunefy-global-key --with-decryption | jq -r '.Parameter.Value' | sudo tee /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem > /dev/null 2>&1
 sudo chmod 400 /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
 
+#Obtain versions
+response=$(curl -X GET \
+  -H "Authorization: token $(aws ssm get-parameter --name tunefy-github-personal-token --with-decryption | jq -r '.Parameter.Value')" \
+  -H "Accept: application/vnd.github.v3+json" \
+  "https://api.github.com/repos/jubuitrago/Tunefy/actions/variables/PROD_VERSION")
+APP_VERSION=$(echo $response | jq -r '.value')
+
 #changing values 
 sudo cp nginx.rb nginx1.rb
 sudo cp nginx.rb nginx2.rb
@@ -64,6 +71,9 @@ sudo sed -i "s/FRONTEND_IP/${FRONTEND_2_IP}:30000/g" nginx2.rb
 sudo sed -i "s/BACKEND_IP/${BACKEND_LB_URL}/g" nginx1.rb
 sudo sed -i "s/BACKEND_IP/${BACKEND_LB_URL}/g" nginx2.rb
 sudo sed -i "s/INSTANCE_PRIVATE_IP/${K8S_MASTER_1_IP}/g" k8s_master_setup.rb
+
+sudo sed -i "s/FRONTEND-VERSIONX/frontend-$APP_VERSION/g" k8s_master_start.rb
+sudo sed -i "s/BACKEND-VERSIONX/backend-$APP_VERSION/g" k8s_master_start.rb
 
 sudo sed -i "s/REPLICAS_NUMBER/${REPLICAS_NUMBER}/g" k8s_master_start.rb
 sudo sed -i "s/PRIMARY_DATABASE_IPX/${PRIMARY_DATABASE_IP}/g" k8s_master_start.rb
