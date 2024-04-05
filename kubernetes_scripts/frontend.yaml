@@ -26,7 +26,7 @@ spec:
                 - frontend2
       containers:
       - name: frontend
-        image: jubuitrago/tunefy:prod-frontend-0.0.5
+        image: jubuitrago/tunefy:BACKEND-VERSION
         ports:
         - containerPort: 3000
         env:
