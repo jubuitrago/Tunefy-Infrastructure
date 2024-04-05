@@ -71,6 +71,7 @@ sudo sed -i "s/AI21_TOKEN_VALUEX/$(aws ssm get-parameter --name tunefy-ai21-toke
 sudo sed -i "s/REACT_APP_GOOGLE_KEY_VALUEX/$(aws ssm get-parameter --name tunefy-react-app-google-key --with-decryption | jq -r '.Parameter.Value')/g" k8s_master_start.rb
 
 sudo sed -i "s/REPLICA_DATABASE_IPX/${REPLICA_DATABASE_IP}/g" primary_database.rb
+sudo sed -i "s/POSTGRES_PASSWORD_VALUEX/$(aws ssm get-parameter --name tunefy-postgres-password --with-decryption | jq -r '.Parameter.Value')/g" primary_database.rb
 sudo sed -i "s/PRIMARY_DATABASE_IPX/${PRIMARY_DATABASE_IP}/g" replica_database.rb
 sudo sed -i "s/GITHUB_PERSONAL_TOKEN/$(aws ssm get-parameter --name tunefy-github-personal-token --with-decryption | jq -r '.Parameter.Value')/g" github_runner.rb
 sudo sed -i "s/RUNNER_NAME/${RUNNER_NAME}/g" github_runner.rb
@@ -130,7 +131,6 @@ sleep 90
 sudo knife ssh 'name:k8s_master_node_1' "docker login -u $(aws ssm get-parameter --name tunefy-docker-username --with-decryption | jq -r '.Parameter.Value') -p $(aws ssm get-parameter --name tunefy-docker-password --with-decryption | jq -r '.Parameter.Value')" -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
 
 #Add start recipe to run-list
-sudo knife ssh 'name:k8s_master_node_1' 'sudo kubectl get nodes' -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
 sudo knife node run_list add k8s_master_node_1 'recipe[tunefy_cookbook::k8s_master_start]'
 sudo knife ssh 'name:k8s_master_node_1' 'sudo chef-client' -x ubuntu -i /home/ubuntu/chef-repo/.chef/tunefy-global-key.pem
 
